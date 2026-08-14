@@ -1,275 +1,190 @@
-# Upload Your Project Folder to the AICA Level 2 Projects Repository
+# 📊 Mutual Fund Advisory Dashboard (Python + Streamlit)
 
-**Target repository:** [aiinicai/AICA-Level-2-Projects](https://github.com/aiinicai/AICA-Level-2-Projects)
+🚀 A data-driven Mutual Fund Analysis & Portfolio Optimization tool built using Python and Streamlit.
 
-This guide explains how to contribute your complete project folder to the **AICA-Level-2-Projects** repository using GitHub’s **Fork + Pull Request** workflow.
-
-Two methods are covered:
-
-1. **Website-only method** — no software installation required.
-2. **Git command-line method** — recommended for complete project folders and projects containing many files.
+This dashboard helps investors, Chartered Accountants, and finance professionals to **analyze mutual funds, compare performance, and build optimized portfolios** using real-world investing principles.
 
 ---
 
-## Save your repository as -
+## 🔥 Key Features
 
-# AICA-L2-Batch-(XXX)-Name-Surname
+### 📈 Fund Analysis
 
+* Multi-period return analysis (1M, 3M, 6M, 1Y, 3Y, 5Y, 10Y)
+* Category-wise performance comparison
+* Top-performing funds identification
 
----
+### ⚖️ Risk vs Return Insights
 
-## Fork + Pull Request Workflow
+* Risk vs Return scatter analysis
+* Sortino vs Return visualization (downside risk)
+* Expense ratio vs performance analysis
 
-1. **Fork:** Create a personal copy of `aiinicai/AICA-Level-2-Projects` under your GitHub account.
-2. **Add your folder:** Upload or copy your project folder into your fork.
-3. **Commit:** Save the changes in your fork with a clear commit message.
-4. **Open a Pull Request:** Request the `aiinicai` account to merge your changes into the original repository.
-5. **Merge:** The repository owner reviews and accepts your Pull Request. After it is merged, your project folder will appear in the official repository.
+### 🧠 Smart Recommendation Engine
 
----
+* Long-term investment scoring (5–10 years)
+* Risk-adjusted ranking using:
 
-# Method 1: Website Only
+  * Sharpe Ratio
+  * Sortino Ratio
+  * Standard Deviation
+* BUY / HOLD / AVOID signals
 
-Use this method if:
+### ⚡ Momentum Investing (Short-Term)
 
-- You do not want to install Git.
-- Your project contains relatively few files.
-- You do not need to preserve the project’s earlier commit history.
+* Identifies high-momentum funds (1–6 months)
+* Combines return + Sharpe + risk
+* Short-term portfolio creation
 
-> [!NOTE]
-> GitHub’s web uploader generally allows up to 100 files in a single upload. If your project contains more files, upload them in batches or use the Git command-line method.
+### 👨‍💼 Fund Manager Analysis
 
-## Step 1: Fork the Repository
+* Ranks fund managers based on:
 
-1. Log in to your GitHub account.
-2. Open the [AICA-Level-2-Projects repository](https://github.com/aiinicai/AICA-Level-2-Projects).
-3. Click **Fork** in the upper-right corner of the page.
-4. On the **Create a new fork** page, keep the default settings.
-5. Click **Create fork**.
+  * Performance consistency
+  * Risk-adjusted returns
+* Identifies top-performing managers from dataset
 
-You will be redirected to your personal copy of the repository:
+### 📊 Portfolio Allocator
 
-```text
-https://github.com/YOUR-USERNAME/AICA-Level-2-Projects
-```
+* Builds client-ready portfolios based on:
 
-Replace `YOUR-USERNAME` with your GitHub username.
+  * Risk profile (Conservative / Moderate / Aggressive)
+  * Diversification rules
+* Provides:
 
-## Step 2: Upload Your Project Folder
+  * Fund allocation
+  * Investment breakup
+  * Expected returns
 
-GitHub provides two ways to add a folder through the website.
+### 📈 Efficient Frontier (Portfolio Optimization)
 
-### Option A: Drag and Drop the Complete Folder
+* Simulates thousands of portfolios
+* Identifies optimal portfolio (Max Sharpe)
+* Generates:
 
-1. Open your fork of the repository.
-2. Click **Add file** → **Upload files**.
-3. Open the parent location of your project folder in File Explorer.
-4. Drag the **complete project folder**—not only the files inside it—into GitHub’s upload area.
-5. Wait until all the files appear in the upload list.
-
-Modern browsers such as Google Chrome and Microsoft Edge generally preserve the folder structure during upload.
-
-### Option B: Create the Folder Using a File Path
-
-1. Open your fork of the repository.
-2. Click **Add file** → **Create new file**.
-3. In the filename box, enter:
-
-   ```text
-   MyProjectName/README.md
-   ```
-
-   Typing `/` in the filename automatically creates the folder.
-
-4. Add a short description of your project to the new `README.md` file.
-5. Click **Commit changes**.
-6. Open the newly created folder.
-7. Click **Add file** → **Upload files** and upload the remaining project files.
-
-Replace `MyProjectName` with the name of your project.
-
-## Step 3: Commit the Upload
-
-1. Scroll down to the **Commit changes** section.
-2. Enter a clear commit message, for example:
-
-   ```text
-   Add <Your Name> - <Project Name> project folder
-   ```
-
-3. Keep **Commit directly to the main branch** selected.
-4. Click **Commit changes**.
-
-Because this is your personal fork, committing directly to its `main` branch is acceptable for this submission workflow.
-
-## Step 4: Open a Pull Request
-
-1. Return to the main page of your fork.
-2. GitHub may display a banner stating:
-
-   ```text
-   This branch is X commits ahead of aiinicai:main
-   ```
-
-3. Click **Contribute** → **Open pull request**.
-
-Alternatively:
-
-1. Open the **Pull requests** tab.
-2. Click **New pull request**.
-
-Before creating the Pull Request, confirm the following direction:
-
-| Setting | Selection |
-| --- | --- |
-| Base repository | `aiinicai/AICA-Level-2-Projects` |
-| Base branch | `main` |
-| Head repository | `YOUR-USERNAME/AICA-Level-2-Projects` |
-| Compare branch | `main` |
-
-Then:
-
-1. Enter a clear Pull Request title, for example:
-
-   ```text
-   Add AICA Level 2 Project - <Your Name>
-   ```
-
-2. In the description, briefly explain:
-   - The purpose of your project.
-   - Its main features.
-   - Any setup or usage instructions.
-3. Click **Create pull request**.
-
-## Step 5: Wait for Review and Merge
-
-The owner of the `aiinicai/AICA-Level-2-Projects` repository will receive your Pull Request.
-
-The repository owner may:
-
-- Review your project.
-- Ask questions.
-- Suggest changes.
-- Approve and merge the Pull Request.
-
-If changes are requested, update the files in your fork and commit them. Your existing Pull Request will update automatically.
-
-After the Pull Request is merged, your project folder will become part of the official repository.
+  * Risk-return curve
+  * Optimal fund allocation
+  * Investment distribution
 
 ---
 
-# Method 2: Git Command Line
+## 🧠 Concepts Used
 
-This method is recommended when:
+This project combines multiple investing philosophies:
 
-- Your project contains many files.
-- You want to upload the complete folder structure reliably.
-- You are comfortable using Git commands.
-
-## Prerequisites
-
-Before beginning:
-
-- Install [Git](https://git-scm.com/downloads).
-- Create or log in to your GitHub account.
-- Fork the [AICA-Level-2-Projects repository](https://github.com/aiinicai/AICA-Level-2-Projects) as explained in Method 1.
-
-## Step 1: Clone Your Fork
-
-Open Terminal, Command Prompt, PowerShell, or Git Bash and run:
-
-```bash
-git clone https://github.com/YOUR-USERNAME/AICA-Level-2-Projects.git
-```
-
-Then open the cloned repository:
-
-```bash
-cd AICA-Level-2-Projects
-```
-
-Replace `YOUR-USERNAME` with your GitHub username.
-
-## Step 2: Copy Your Project Folder
-
-Copy your complete project folder into the cloned `AICA-Level-2-Projects` directory.
-
-Recommended folder naming format:
-
-```text
-YourName-ProjectName/
-```
-
-Example:
-
-```text
-Rahul-Sharma-AI-Invoice-Analyzer/
-```
-
-## Step 3: Review the Changes
-
-Run:
-
-```bash
-git status
-```
-
-Confirm that Git lists only the files and folders you intend to submit.
-
-## Step 4: Stage and Commit the Project
-
-Stage your project folder:
-
-```bash
-git add YourName-ProjectName/
-```
-
-Commit the changes:
-
-```bash
-git commit -m "Add <Your Name> - <Project Name> project folder"
-```
-
-## Step 5: Push the Changes to Your Fork
-
-Run:
-
-```bash
-git push origin main
-```
-
-Your project folder will now appear in your fork on GitHub.
-
-## Step 6: Open a Pull Request
-
-1. Open your fork on GitHub.
-2. Click **Contribute** → **Open pull request**.
-3. Confirm the base and compare repositories:
-
-| Setting | Selection |
-| --- | --- |
-| Base repository | `aiinicai/AICA-Level-2-Projects` |
-| Base branch | `main` |
-| Head repository | `YOUR-USERNAME/AICA-Level-2-Projects` |
-| Compare branch | `main` |
-
-4. Add a clear title and project description.
-5. Click **Create pull request**.
+* Value Investing (Benjamin Graham)
+* Quality Investing (Warren Buffett)
+* Growth Investing (Peter Lynch)
+* Risk Management (Ray Dalio)
+* Quantitative Finance (Modern Portfolio Theory)
 
 ---
 
-## Before Submitting
+## 🛠️ Tech Stack
 
-Please verify the following:
+* Python
+* Streamlit
+* Pandas
+* NumPy
+* Plotly
 
-- Your complete project is inside one clearly named folder.
-- Your folder includes a `README.md` explaining the project.
-- The project does not contain passwords, API keys, access tokens, or other confidential information.
-- Unnecessary generated files and dependency folders are excluded where applicable.
-- The project opens or runs using the instructions included in its `README.md`.
-- Your Pull Request targets `aiinicai/AICA-Level-2-Projects` on the `main` branch.
+---
 
-## Need to Update Your Submission?
+## 📂 Project Structure
 
-If your Pull Request is still open, make the required changes in the same fork and branch, then commit and push them. GitHub will automatically add the new commits to the existing Pull Request.
+```
+mutual-fund-dashboard/
+│
+├── mf_dashboard.py          # Main Streamlit App
+├── requirements.txt         # Dependencies
+├── data/
+│   └── screener.csv         # Mutual fund dataset
+└── README.md
+```
 
+---
+
+## 🚀 How to Run Locally
+
+### 1. Clone the Repository
+
+```
+git clone https://github.com/yourusername/mutual-fund-dashboard.git
+cd mutual-fund-dashboard
+```
+
+### 2. Install Dependencies
+
+```
+pip install -r requirements.txt
+```
+
+### 3. Run the App
+
+```
+streamlit run mf_dashboard.py
+```
+
+---
+
+## 🌐 Deployment (Streamlit Cloud)
+
+1. Push this project to GitHub
+2. Go to: https://share.streamlit.io
+3. Click **New App**
+4. Select your repo and file: `mf_dashboard.py`
+5. Deploy 🚀
+
+---
+
+## ⚠️ Disclaimer
+
+This tool is built for **educational and analytical purposes only**.
+It provides **data-driven insights**, not financial advice.
+
+Please consult a qualified financial advisor before making investment decisions.
+
+---
+
+## 💡 Use Cases
+
+* Chartered Accountants (Client Advisory)
+* Finance Students (Learning Python + Investing)
+* Wealth Managers (Quick Analysis Tool)
+* Content Creators (YouTube / Instagram insights)
+
+---
+
+## 🚀 Future Enhancements
+
+* Real-time NAV integration
+* Portfolio rebalancing system
+* SIP calculator & goal planning
+* PDF report generation for clients
+* AI-based fund recommendations
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome!
+Feel free to fork the repo and submit a pull request.
+
+---
+
+## ⭐ Support
+
+If you find this useful, give it a ⭐ on GitHub!
+
+---
+
+## 📬 Contact
+
+For collaboration, consulting, or training:
+
+👉 Connect via Email - prokhata@gmail.com
+👉 Or reach out through your platform (Prokhata.com)
+
+---
+
+### 📊 Analyze | ⚡ Compare | 🧠 Optimize | 💰 Invest Smarter
