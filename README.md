@@ -1,268 +1,128 @@
-# Upload Your Project Folder to the AICA Level 2 Projects Repository
+# Non Ind AS Schedule III Financial Statements Builder
 
-**Target repository:** [aiinicai/AICA-Level-2-Projects](https://github.com/aiinicai/AICA-Level-2-Projects)
-
-This guide explains how to contribute your complete project folder to the **AICA-Level-2-Projects** repository using GitHub’s **Fork + Pull Request** workflow.
-
-Two methods are covered:
-
-1. **Website-only method** — no software installation required.
-2. **Git command-line method** — recommended for complete project folders and projects containing many files.
+> **A local Windows desktop application** to import a Tally Trial Balance and prepare **draft standalone financial statements** compliant with **Schedule III of the Companies Act, 2013 (Division I – Non Ind AS)**.
 
 ---
 
-## Fork + Pull Request Workflow
+## 📋 What This Application Does
 
-1. **Fork:** Create a personal copy of `aiinicai/AICA-Level-2-Projects` under your GitHub account.
-2. **Add your folder:** Upload or copy your project folder into your fork.
-3. **Commit:** Save the changes in your fork with a clear commit message.
-4. **Open a Pull Request:** Request the `aiinicai` account to merge your changes into the original repository.
-5. **Merge:** The repository owner reviews and accepts your Pull Request. After it is merged, your project folder will appear in the official repository.
+- **Import** Tally Trial Balance from Excel (`.xlsx`/`.xls`), CSV (`.csv`), or Tally XML (`.xml`)
+- **Auto-map** each ledger to Schedule III Balance Sheet / P&L line items
+- **Generate** draft financial statements:
+  - Balance Sheet
+  - Statement of Profit & Loss
+  - Cash Flow Statement (Indirect Method)
+  - **11 Mandatory Schedule III Financial Ratios**
+- **Export** final reports to Excel (`.xlsx`), Word (`.docx`), and PDF (`.pdf`)
+- **Audit & Exceptions** checklist with Balance Sheet equation verification
 
----
-
-# Method 1: Website Only
-
-Use this method if:
-
-- You do not want to install Git.
-- Your project contains relatively few files.
-- You do not need to preserve the project’s earlier commit history.
-
-> [!NOTE]
-> GitHub’s web uploader generally allows up to 100 files in a single upload. If your project contains more files, upload them in batches or use the Git command-line method.
-
-## Step 1: Fork the Repository
-
-1. Log in to your GitHub account.
-2. Open the [AICA-Level-2-Projects repository](https://github.com/aiinicai/AICA-Level-2-Projects).
-3. Click **Fork** in the upper-right corner of the page.
-4. On the **Create a new fork** page, keep the default settings.
-5. Click **Create fork**.
-
-You will be redirected to your personal copy of the repository:
-
-```text
-https://github.com/YOUR-USERNAME/AICA-Level-2-Projects
-```
-
-Replace `YOUR-USERNAME` with your GitHub username.
-
-## Step 2: Upload Your Project Folder
-
-GitHub provides two ways to add a folder through the website.
-
-### Option A: Drag and Drop the Complete Folder
-
-1. Open your fork of the repository.
-2. Click **Add file** → **Upload files**.
-3. Open the parent location of your project folder in File Explorer.
-4. Drag the **complete project folder**—not only the files inside it—into GitHub’s upload area.
-5. Wait until all the files appear in the upload list.
-
-Modern browsers such as Google Chrome and Microsoft Edge generally preserve the folder structure during upload.
-
-### Option B: Create the Folder Using a File Path
-
-1. Open your fork of the repository.
-2. Click **Add file** → **Create new file**.
-3. In the filename box, enter:
-
-   ```text
-   MyProjectName/README.md
-   ```
-
-   Typing `/` in the filename automatically creates the folder.
-
-4. Add a short description of your project to the new `README.md` file.
-5. Click **Commit changes**.
-6. Open the newly created folder.
-7. Click **Add file** → **Upload files** and upload the remaining project files.
-
-Replace `MyProjectName` with the name of your project.
-
-## Step 3: Commit the Upload
-
-1. Scroll down to the **Commit changes** section.
-2. Enter a clear commit message, for example:
-
-   ```text
-   Add <Your Name> - <Project Name> project folder
-   ```
-
-3. Keep **Commit directly to the main branch** selected.
-4. Click **Commit changes**.
-
-Because this is your personal fork, committing directly to its `main` branch is acceptable for this submission workflow.
-
-## Step 4: Open a Pull Request
-
-1. Return to the main page of your fork.
-2. GitHub may display a banner stating:
-
-   ```text
-   This branch is X commits ahead of aiinicai:main
-   ```
-
-3. Click **Contribute** → **Open pull request**.
-
-Alternatively:
-
-1. Open the **Pull requests** tab.
-2. Click **New pull request**.
-
-Before creating the Pull Request, confirm the following direction:
-
-| Setting | Selection |
-| --- | --- |
-| Base repository | `aiinicai/AICA-Level-2-Projects` |
-| Base branch | `main` |
-| Head repository | `YOUR-USERNAME/AICA-Level-2-Projects` |
-| Compare branch | `main` |
-
-Then:
-
-1. Enter a clear Pull Request title, for example:
-
-   ```text
-   Add AICA Level 2 Project - <Your Name>
-   ```
-
-2. In the description, briefly explain:
-   - The purpose of your project.
-   - Its main features.
-   - Any setup or usage instructions.
-3. Click **Create pull request**.
-
-## Step 5: Wait for Review and Merge
-
-The owner of the `aiinicai/AICA-Level-2-Projects` repository will receive your Pull Request.
-
-The repository owner may:
-
-- Review your project.
-- Ask questions.
-- Suggest changes.
-- Approve and merge the Pull Request.
-
-If changes are requested, update the files in your fork and commit them. Your existing Pull Request will update automatically.
-
-After the Pull Request is merged, your project folder will become part of the official repository.
+> ⚠️ This is a preparation and review tool only — not a substitute for professional CA judgement, audit, or statutory sign-off.
 
 ---
 
-# Method 2: Git Command Line
+## 🗂️ Project Structure
 
-This method is recommended when:
-
-- Your project contains many files.
-- You want to upload the complete folder structure reliably.
-- You are comfortable using Git commands.
-
-## Prerequisites
-
-Before beginning:
-
-- Install [Git](https://git-scm.com/downloads).
-- Create or log in to your GitHub account.
-- Fork the [AICA-Level-2-Projects repository](https://github.com/aiinicai/AICA-Level-2-Projects) as explained in Method 1.
-
-## Step 1: Clone Your Fork
-
-Open Terminal, Command Prompt, PowerShell, or Git Bash and run:
-
-```bash
-git clone https://github.com/YOUR-USERNAME/AICA-Level-2-Projects.git
 ```
-
-Then open the cloned repository:
-
-```bash
-cd AICA-Level-2-Projects
+NonIndAS_ScheduleIII_Builder/
+│
+├── src/                        ← Python backend
+│   ├── app.py                  ← Flask REST API + server launcher
+│   ├── db.py                   ← SQLite database schema & queries
+│   ├── import_engine.py        ← Tally file parsers (Excel/CSV/XML)
+│   ├── mapping_engine.py       ← Auto-mapping engine (Tally → Schedule III)
+│   ├── reconciliation_engine.py← Balance sheet checks & audit checklist
+│   ├── statement_generator.py  ← Financial statement generators
+│   └── export_engine.py        ← Excel / Word / PDF export engine
+│
+├── static/                     ← Frontend (HTML + CSS + JavaScript)
+│   ├── index.html              ← Single-page application UI
+│   ├── styles.css              ← All visual styling
+│   └── app.js                  ← Browser-side logic & API calls
+│
+├── tests/                      ← Automated unit tests
+│   ├── test_reconciliation.py  ← Reconciliation & BS equation tests (4/4 pass)
+│   └── test_notes.py           ← Notes data tests
+│
+├── templates/                  ← Flask HTML templates (if any)
+├── exports/                    ← Generated report outputs go here
+│
+├── requirements.txt            ← Python package dependencies
+├── run.bat                     ← ✅ Double-click to launch the application
+└── build_exe.py                ← PyInstaller standalone EXE builder
 ```
-
-Replace `YOUR-USERNAME` with your GitHub username.
-
-## Step 2: Copy Your Project Folder
-
-Copy your complete project folder into the cloned `AICA-Level-2-Projects` directory.
-
-Recommended folder naming format:
-
-```text
-YourName-ProjectName/
-```
-
-Example:
-
-```text
-Rahul-Sharma-AI-Invoice-Analyzer/
-```
-
-## Step 3: Review the Changes
-
-Run:
-
-```bash
-git status
-```
-
-Confirm that Git lists only the files and folders you intend to submit.
-
-## Step 4: Stage and Commit the Project
-
-Stage your project folder:
-
-```bash
-git add YourName-ProjectName/
-```
-
-Commit the changes:
-
-```bash
-git commit -m "Add <Your Name> - <Project Name> project folder"
-```
-
-## Step 5: Push the Changes to Your Fork
-
-Run:
-
-```bash
-git push origin main
-```
-
-Your project folder will now appear in your fork on GitHub.
-
-## Step 6: Open a Pull Request
-
-1. Open your fork on GitHub.
-2. Click **Contribute** → **Open pull request**.
-3. Confirm the base and compare repositories:
-
-| Setting | Selection |
-| --- | --- |
-| Base repository | `aiinicai/AICA-Level-2-Projects` |
-| Base branch | `main` |
-| Head repository | `YOUR-USERNAME/AICA-Level-2-Projects` |
-| Compare branch | `main` |
-
-4. Add a clear title and project description.
-5. Click **Create pull request**.
 
 ---
 
-## Before Submitting
+## 🚀 How to Run
 
-Please verify the following:
+### Prerequisites
+- **Python 3.10 or higher** must be installed  
+  Download from: https://www.python.org/downloads/
 
-- Your complete project is inside one clearly named folder.
-- Your folder includes a `README.md` explaining the project.
-- The project does not contain passwords, API keys, access tokens, or other confidential information.
-- Unnecessary generated files and dependency folders are excluded where applicable.
-- The project opens or runs using the instructions included in its `README.md`.
-- Your Pull Request targets `aiinicai/AICA-Level-2-Projects` on the `main` branch.
+### Step 1 — Install Dependencies
+Open a Command Prompt in this folder and run:
+```
+pip install -r requirements.txt
+```
 
-## Need to Update Your Submission?
+### Step 2 — Launch the Application
+Simply **double-click `run.bat`** — it will:
+1. Start the local Flask web server
+2. Automatically open your browser at `http://127.0.0.1:5000`
 
-If your Pull Request is still open, make the required changes in the same fork and branch, then commit and push them. GitHub will automatically add the new commits to the existing Pull Request.
+### Step 3 — Use the Guided Wizard
+Follow the 5-step workflow bar at the top:
 
+| Step | What To Do |
+|------|-----------|
+| **1. Setup** | Fill in entity name, financial year, rounding unit, CIN |
+| **2. Import TB** | Upload your Tally Trial Balance file, or load demo data |
+| **3. Map Ledgers** | Review auto-mapped Schedule III classifications |
+| **4. Audit & Exceptions** | Check Balance Sheet equation and mandatory disclosures |
+| **5. Financial Statements** | View and export Balance Sheet, P&L, Cash Flow, Ratios |
+
+---
+
+## 📦 Supported Import Formats
+
+| Format | Details |
+|--------|---------|
+| `.xlsx` / `.xls` | Tally Excel export (standard columnar format) |
+| `.csv` | Comma-separated Trial Balance |
+| `.xml` | Tally XML data export |
+
+---
+
+## 🛠️ Technology Stack
+
+| Layer | Technology |
+|-------|-----------|
+| Backend | Python 3, Flask |
+| Database | SQLite (embedded, no installation needed) |
+| Frontend | HTML5, Vanilla CSS, Vanilla JavaScript |
+| Excel Export | openpyxl |
+| Word Export | python-docx |
+| PDF Export | reportlab |
+| Launcher | Windows Batch Script |
+
+---
+
+## 📊 Financial Statements Generated
+
+1. **Balance Sheet** — Per Schedule III Division I format
+2. **Statement of Profit & Loss** — With current and comparative year
+3. **Cash Flow Statement** — Indirect method
+4. **Mandatory Ratios** — All 11 ratios required by MCA notification (Mar 2022)
+
+---
+
+## ⚖️ Disclaimer
+
+This tool is built for **internal preparation and review purposes only**. The financial statements generated must be reviewed, adjusted, and signed off by a **qualified Chartered Accountant** before filing or publication. The developers accept no liability for statutory compliance.
+
+---
+
+## 👥 Developed By
+
+AICA Level 2 Group Project  
+*Companies Act 2013 | Schedule III | Non Ind AS Division I*
