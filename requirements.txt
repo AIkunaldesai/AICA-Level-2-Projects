@@ -1,0 +1,10 @@
+streamlit
+pandas
+altair
+plotly
+pyarrow
+pdfminer.six
+pypdfium2
+openpyxl
+xlsxwriter
+cryptography
