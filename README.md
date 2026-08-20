@@ -1,4 +1,19 @@
-# AI-Based Secure Client Document Retrieval from Office Email
+# 🏦 Bank Statement Analyzer (Portable v1.6.1)
+
+[![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/)
+[![Streamlit App](https://img.shields.io/badge/framework-Streamlit-FF4B4B.svg)](https://streamlit.io/)
+[![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20macOS%20%7C%20Linux-lightgrey.svg)](https://github.com)
+[![Privacy First](https://img.shields.io/badge/privacy-100%25%20Offline-success.svg)](https://github.com)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+**Bank Statement Analyzer** is a fast, intelligent, and privacy-first financial application designed to transform complex bank statements into actionable cash flow intelligence, audit-ready summaries, and live dynamic Excel workbooks.
+
+Available as a **zero-install portable Windows application** and as a **modular Python/Streamlit web dashboard**.
+
+---
+<div align="center">
+<img width="1200" height="475" alt="GHBanner" src="https://ai.google.dev/static/site-assets/images/share-ais-513315318.png" />
+</div>
 
 ## AICA Level-2 Capstone Project
 
@@ -8,15 +23,7 @@
 
 ---
 
-## 1. Project Objective
-
-The objective of this project is to automate the retrieval of client documents from the firm's office records when an authorised client requests documents through email.
-
-The workflow reads an incoming email, identifies whether it is a genuine document request, extracts the PAN, financial year and requested document types, authenticates the sender against the firm's client master database, searches the appropriate Google Drive folders, retrieves the requested files and sends them back by email.
-
-The workflow also records successful and unsuccessful transactions in an Audit Log.
-
----
+## Fork + Pull Request Workflow
 
 ## 2. Business Problem
 
