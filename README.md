@@ -1,268 +1,253 @@
 # Upload Your Project Folder to the AICA Level 2 Projects Repository
 
-**Target repository:** [aiinicai/AICA-Level-2-Projects](https://github.com/aiinicai/AICA-Level-2-Projects)
+## AICA Level-2 Capstone Project
 
-This guide explains how to contribute your complete project folder to the **AICA-Level-2-Projects** repository using GitHub’s **Fork + Pull Request** workflow.
-
-Two methods are covered:
-
-1. **Website-only method** — no software installation required.
-2. **Git command-line method** — recommended for complete project folders and projects containing many files.
+**Project:** Secure Document Retrieval from Office Email  
+**Organisation:** GAV & Associates, Chartered Accountants  
+**Technology:** n8n + Gmail + OpenAI GPT + Google Sheets + Google Drive
 
 ---
 
 ## Fork + Pull Request Workflow
 
-1. **Fork:** Create a personal copy of `aiinicai/AICA-Level-2-Projects` under your GitHub account.
-2. **Add your folder:** Upload or copy your project folder into your fork.
-3. **Commit:** Save the changes in your fork with a clear commit message.
-4. **Open a Pull Request:** Request the `aiinicai` account to merge your changes into the original repository.
-5. **Merge:** The repository owner reviews and accepts your Pull Request. After it is merged, your project folder will appear in the official repository.
+## 2. Business Problem
+
+In a Chartered Accountant's office, clients frequently request copies of:
+
+- Income Tax Returns (ITR)
+- Financial Statements
+- Tax Audit Reports
+- GST Returns
+- Other previously prepared documents
+
+Manual retrieval requires office staff to:
+
+1. Read the client email.
+2. Identify the client.
+3. Verify the sender.
+4. Identify the financial year.
+5. Locate the client folder.
+6. Locate the financial-year folder.
+7. Find the requested document.
+8. Download and attach the document.
+9. Reply to the client.
+10. Maintain a record of the transaction.
+
+This project automates the repetitive part of this process while retaining authentication and audit controls.
 
 ---
 
-# Method 1: Website Only
+## 3. Workflow Architecture
 
-Use this method if:
+### High-Level Flow
 
-- You do not want to install Git.
-- Your project contains relatively few files.
-- You do not need to preserve the project’s earlier commit history.
+Gmail → AI Request Analysis → Required Field Validation → Client Authentication → Google Drive Search → Document Retrieval → Email Response → Audit Log
 
-> [!NOTE]
-> GitHub’s web uploader generally allows up to 100 files in a single upload. If your project contains more files, upload them in batches or use the Git command-line method.
-
-## Step 1: Fork the Repository
-
-1. Log in to your GitHub account.
-2. Open the [AICA-Level-2-Projects repository](https://github.com/aiinicai/AICA-Level-2-Projects).
-3. Click **Fork** in the upper-right corner of the page.
-4. On the **Create a new fork** page, keep the default settings.
-5. Click **Create fork**.
-
-You will be redirected to your personal copy of the repository:
-
-```text
-https://github.com/YOUR-USERNAME/AICA-Level-2-Projects
-```
-
-Replace `YOUR-USERNAME` with your GitHub username.
-
-## Step 2: Upload Your Project Folder
-
-GitHub provides two ways to add a folder through the website.
-
-### Option A: Drag and Drop the Complete Folder
-
-1. Open your fork of the repository.
-2. Click **Add file** → **Upload files**.
-3. Open the parent location of your project folder in File Explorer.
-4. Drag the **complete project folder**—not only the files inside it—into GitHub’s upload area.
-5. Wait until all the files appear in the upload list.
-
-Modern browsers such as Google Chrome and Microsoft Edge generally preserve the folder structure during upload.
-
-### Option B: Create the Folder Using a File Path
-
-1. Open your fork of the repository.
-2. Click **Add file** → **Create new file**.
-3. In the filename box, enter:
-
-   ```text
-   MyProjectName/README.md
-   ```
-
-   Typing `/` in the filename automatically creates the folder.
-
-4. Add a short description of your project to the new `README.md` file.
-5. Click **Commit changes**.
-6. Open the newly created folder.
-7. Click **Add file** → **Upload files** and upload the remaining project files.
-
-Replace `MyProjectName` with the name of your project.
-
-## Step 3: Commit the Upload
-
-1. Scroll down to the **Commit changes** section.
-2. Enter a clear commit message, for example:
-
-   ```text
-   Add <Your Name> - <Project Name> project folder
-   ```
-
-3. Keep **Commit directly to the main branch** selected.
-4. Click **Commit changes**.
-
-Because this is your personal fork, committing directly to its `main` branch is acceptable for this submission workflow.
-
-## Step 4: Open a Pull Request
-
-1. Return to the main page of your fork.
-2. GitHub may display a banner stating:
-
-   ```text
-   This branch is X commits ahead of aiinicai:main
-   ```
-
-3. Click **Contribute** → **Open pull request**.
-
-Alternatively:
-
-1. Open the **Pull requests** tab.
-2. Click **New pull request**.
-
-Before creating the Pull Request, confirm the following direction:
-
-| Setting | Selection |
-| --- | --- |
-| Base repository | `aiinicai/AICA-Level-2-Projects` |
-| Base branch | `main` |
-| Head repository | `YOUR-USERNAME/AICA-Level-2-Projects` |
-| Compare branch | `main` |
-
-Then:
-
-1. Enter a clear Pull Request title, for example:
-
-   ```text
-   Add AICA Level 2 Project - <Your Name>
-   ```
-
-2. In the description, briefly explain:
-   - The purpose of your project.
-   - Its main features.
-   - Any setup or usage instructions.
-3. Click **Create pull request**.
-
-## Step 5: Wait for Review and Merge
-
-The owner of the `aiinicai/AICA-Level-2-Projects` repository will receive your Pull Request.
-
-The repository owner may:
-
-- Review your project.
-- Ask questions.
-- Suggest changes.
-- Approve and merge the Pull Request.
-
-If changes are requested, update the files in your fork and commit them. Your existing Pull Request will update automatically.
-
-After the Pull Request is merged, your project folder will become part of the official repository.
+Detailed architecture is provided in `architecture.png`.
 
 ---
 
-# Method 2: Git Command Line
+## 4. How the AI Agent Works
 
-This method is recommended when:
+The AI component analyses the incoming email and determines whether it is a genuine document request.
 
-- Your project contains many files.
-- You want to upload the complete folder structure reliably.
-- You are comfortable using Git commands.
+It extracts:
 
-## Prerequisites
+- PAN
+- Financial Year
+- Requested Documents
+- Whether the email is a genuine document request
 
-Before beginning:
+The workflow uses a structured output schema so that the AI response is converted into predictable fields.
 
-- Install [Git](https://git-scm.com/downloads).
-- Create or log in to your GitHub account.
-- Fork the [AICA-Level-2-Projects repository](https://github.com/aiinicai/AICA-Level-2-Projects) as explained in Method 1.
+The AI model configured in the workflow is GPT-5 Mini.
 
-## Step 1: Clone Your Fork
+---
 
-Open Terminal, Command Prompt, PowerShell, or Git Bash and run:
+## 5. Document Recognition
 
-```bash
-git clone https://github.com/YOUR-USERNAME/AICA-Level-2-Projects.git
-```
+The workflow normalises commonly used document names:
 
-Then open the cloned repository:
+| Client wording | Standard document type |
+|---|---|
+| ITR / ITR Copy / Income Tax Return / Return Copy | ITR |
+| Financial Statement / Balance Sheet / P&L | Financials |
+| Tax Audit / Tax Audit Report | Tax Audit Report |
+| GST Return / GST Returns | GST Returns |
 
-```bash
-cd AICA-Level-2-Projects
-```
+Only recognised document types are searched.
 
-Replace `YOUR-USERNAME` with your GitHub username.
+---
 
-## Step 2: Copy Your Project Folder
+## 6. Security and Authentication
 
-Copy your complete project folder into the cloned `AICA-Level-2-Projects` directory.
+The workflow does not send documents merely because an email contains a PAN.
 
-Recommended folder naming format:
+Authentication is performed using two matching conditions:
 
-```text
-YourName-ProjectName/
-```
+**PAN + Registered Email ID**
+
+The PAN is first searched in the Client Masterdata Google Sheet.
+
+The sender email is then compared with the email registered against that PAN.
+
+Only when both conditions match is the sender treated as authenticated.
+
+Unauthorised requests are rejected and recorded in the Audit Log.
+
+---
+
+## 7. Document Retrieval Logic
+
+After authentication:
+
+1. Search Google Drive for the client's PAN folder.
+2. Search within that folder for the requested financial year.
+3. Convert each requested document into a standard search name.
+4. Search the financial-year folder.
+5. Download documents that are found.
+6. Combine the results.
+7. If all requested documents are found, send them as email attachments.
+8. If one or more requested documents are missing, send a failure response instead of sending an incomplete document set.
+
+---
+
+## 8. Exception Handling
+
+The workflow handles the following situations:
+
+### A. Non-document email
+The workflow ignores promotional, marketing, newsletter, spam and similar emails.
+
+### B. Missing PAN
+The client is asked to provide the PAN reference.
+
+### C. Missing Financial Year
+The client is asked to specify the financial year.
+
+### D. Missing Document Type
+The client is asked to specify the required document.
+
+### E. PAN / Email Authentication Failure
+The request is rejected and the client is asked to contact the office.
+
+### F. Document Not Found
+The client receives a response that the requested document could not be located.
+
+---
+
+## 9. Audit Trail
+
+The workflow maintains an Audit Log in Google Sheets.
+
+The log records:
+
+- Timestamp
+- Client Name
+- PAN
+- Sender Email
+- Financial Year
+- Documents Requested
+- Files Sent
+- Status
+- Failure Reason
+
+This provides an operational record of document retrieval attempts.
+
+---
+
+## 10. Technology Stack
+
+| Component | Purpose |
+|---|---|
+| n8n | Workflow automation/orchestration |
+| Gmail | Incoming requests and outgoing responses |
+| OpenAI GPT-5 Mini | Email understanding and document request extraction |
+| Google Sheets | Client authentication and audit logging |
+| Google Drive | Client document repository |
+
+---
+
+## 11. Sample Request
 
 Example:
 
-```text
-Rahul-Sharma-AI-Invoice-Analyzer/
-```
+From: authorised.client@example.com
 
-## Step 3: Review the Changes
+Subject: Request for ITR FY 2024-25
 
-Run:
+Message:
 
-```bash
-git status
-```
+Please send me my ITR copy for FY 2024-25.
 
-Confirm that Git lists only the files and folders you intend to submit.
+The AI extracts:
 
-## Step 4: Stage and Commit the Project
+PAN: ABCDE1234F  
+Financial Year: FY 2024-25  
+Document: ITR  
+Document Request: TRUE
 
-Stage your project folder:
-
-```bash
-git add YourName-ProjectName/
-```
-
-Commit the changes:
-
-```bash
-git commit -m "Add <Your Name> - <Project Name> project folder"
-```
-
-## Step 5: Push the Changes to Your Fork
-
-Run:
-
-```bash
-git push origin main
-```
-
-Your project folder will now appear in your fork on GitHub.
-
-## Step 6: Open a Pull Request
-
-1. Open your fork on GitHub.
-2. Click **Contribute** → **Open pull request**.
-3. Confirm the base and compare repositories:
-
-| Setting | Selection |
-| --- | --- |
-| Base repository | `aiinicai/AICA-Level-2-Projects` |
-| Base branch | `main` |
-| Head repository | `YOUR-USERNAME/AICA-Level-2-Projects` |
-| Compare branch | `main` |
-
-4. Add a clear title and project description.
-5. Click **Create pull request**.
+The workflow then authenticates the sender and searches the relevant Drive folder.
 
 ---
 
-## Before Submitting
+## 12. Sample Successful Response
 
-Please verify the following:
+Dear Client,
 
-- Your complete project is inside one clearly named folder.
-- Your folder includes a `README.md` explaining the project.
-- The project does not contain passwords, API keys, access tokens, or other confidential information.
-- Unnecessary generated files and dependency folders are excluded where applicable.
-- The project opens or runs using the instructions included in its `README.md`.
-- Your Pull Request targets `aiinicai/AICA-Level-2-Projects` on the `main` branch.
+Please find the requested document attached.
 
-## Need to Update Your Submission?
+Documents attached:
 
-If your Pull Request is still open, make the required changes in the same fork and branch, then commit and push them. GitHub will automatically add the new commits to the existing Pull Request.
+- ITR
 
+This is an automatically generated email.
+
+Regards,
+
+GAV & Associates
+Chartered Accountants
+
+---
+
+## 13. Important Deployment Note
+
+The exported n8n workflow contains references to connected credentials and cloud resources. Before deploying the workflow in another n8n environment, the required Gmail, OpenAI, Google Sheets and Google Drive credentials must be connected again.
+
+Do not publish API keys, OAuth tokens, passwords, client documents or confidential client information in the GitHub repository.
+
+For the capstone repository, use only dummy/test data in sample files.
+
+---
+
+## 14. Capstone Demonstration
+
+The demonstration should show:
+
+1. A client email requesting a document.
+2. AI extraction of PAN, financial year and document type.
+3. Client authentication.
+4. Google Drive folder search.
+5. Document retrieval.
+6. Email response with attachment.
+7. Audit Log entry.
+8. At least one failure/exception scenario.
+
+---
+
+## 15. Project Files
+
+- `CA Secure Document Retrieval.json` – exported n8n workflow
+- `README.md` – project documentation
+- `architecture.png` – workflow architecture
+- `prompts.txt` – AI instructions/prompts
+- `sample-output.pdf` – dummy sample output
+- `demo-video-link.txt` – demonstration video link
+
+---
+
+## 16. Disclaimer
+
+This capstone project is a demonstration of an AI-enabled workflow. Production deployment should be subject to the firm's information-security policies, access controls, data protection requirements and professional judgment.
+
+No real client confidential information should be included in the public GitHub repository.
