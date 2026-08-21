@@ -1,8 +1,6 @@
 {
-  "name": "KiliTrade Desktop Suite",
-  "description": "Multi-tenant cloud SaaS and desktop business management platform featuring multi-company isolation, RBAC client portal, TRA tax invoicing, vector PDF toolkit, CRM with payment trends, and live East African market intelligence.",
-  "requestFramePermissions": [],
-  "majorCapabilities": [
-    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
-  ]
+  "name": "AssetTrust AI — Fixed Asset Governance & Control Tower",
+  "description": "Agentic Fixed Asset Governance, Risk Control & Audit-Readiness Platform for CFOs, Finance Leaders, and Internal Auditors under Ind AS, Companies Act & Tax Frameworks.",
+  "requestFramePermissions": ["camera"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

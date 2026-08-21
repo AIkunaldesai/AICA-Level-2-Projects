@@ -1,556 +1,420 @@
-/**
- * @license
- * SPDX-License-Identifier: Apache-2.0
- */
-
-import React, { useState, useEffect } from 'react';
-import { ModuleId, Voucher, Client, CompanyProfile, VoucherType, VoucherStatus, User } from './types';
-import { StorageService } from './services/storage';
-
-// Common Components
-import { Sidebar } from './components/common/Sidebar';
-import { Header } from './components/common/Header';
-import { BackupRestoreModal } from './components/common/BackupRestoreModal';
-import { GettingStartedModal } from './components/common/GettingStartedModal';
-
-// Module 0: Home Dashboard
-import { HomeDashboardView } from './components/dashboard/HomeDashboardView';
-
-// Module 1: Vouchers
-import { VoucherList } from './components/vouchers/VoucherList';
-import { VoucherEditor } from './components/vouchers/VoucherEditor';
-import { VoucherPreviewModal } from './components/vouchers/VoucherPreviewModal';
-import { AIInvoiceScanModal } from './components/vouchers/AIInvoiceScanModal';
-
-// Module 2: PDF Toolkit
-import { PDFToolkitView } from './components/pdfToolkit/PDFToolkitView';
-
-// Module 3: Clientele (CRM)
-import { ClientList } from './components/clientele/ClientList';
-import { ClientDetailModal } from './components/clientele/ClientDetailModal';
-import { ClientFormModal } from './components/clientele/ClientFormModal';
-import { BulkImportModal } from './components/clientele/BulkImportModal';
-
-// Module 4: Intelligence
-import { GlobalIntelligenceView } from './components/intelligence/GlobalIntelligenceView';
-import { AIAssistantModal } from './components/intelligence/AIAssistantModal';
-
-// Branding & Company Profile
-import { CompanyProfileSettings } from './components/branding/CompanyProfileSettings';
-
-// Products Master
-import { ManageProductsView } from './components/products/ManageProductsView';
-
-// Finance Analytics & Trends
-import { PaymentTrendsView } from './components/finance/PaymentTrendsView';
-
-// User Access & Signup Gatekeeper
-import { SignupRequestsView } from './components/signups/SignupRequestsView';
-
-// Multi-Tenant Auth & Onboarding Modal
-import { AuthModal } from './components/auth/AuthModal';
-import { AuthScreen } from './components/auth/AuthScreen';
+import React, { useState, useMemo, useEffect } from 'react';
+import { Navbar } from './components/Navbar';
+import { ControlTower } from './components/ControlTower';
+import { AssetRegister } from './components/AssetRegister';
+import { AiCapitalisationReview } from './components/AiCapitalisationReview';
+import { PhysicalVerification } from './components/PhysicalVerification';
+import { RiskEngine } from './components/RiskEngine';
+import { ExceptionsWorkflow } from './components/ExceptionsWorkflow';
+import { PolicyCompliance } from './components/PolicyCompliance';
+import { AuditReadiness } from './components/AuditReadiness';
+import { UserManual } from './components/UserManual';
+import { QuickStartGuideModal } from './components/QuickStartGuideModal';
+import { AssetDetailModal } from './components/AssetDetailModal';
+import { DemoAssetShowcase } from './components/DemoAssetShowcase';
+import { CompanyModal } from './components/CompanyModal';
+import { CompanyDataStudio } from './components/CompanyDataStudio';
+import { calculateReliabilityScore } from './services/reliabilityScore';
+import { 
+  getStoredCompanies, 
+  getActiveCompanyId, 
+  setActiveCompanyId, 
+  getCompanyData, 
+  saveCompanyData, 
+  createNewCompany as createCompanyService,
+  deleteCompany as deleteCompanyService
+} from './services/companyStorage';
+import { Asset, CapexItem, RiskFinding, VerificationScanRecord, CapitalisationReviewResult, Company } from './types';
 
 export default function App() {
-  const storage = StorageService.getInstance();
+  const [activeTab, setActiveTab] = useState('control-tower');
+  const [currencyMode, setCurrencyMode] = useState<'Lakhs' | 'Crores' | 'Full'>('Crores');
+  
+  // Multi-Company State
+  const [allCompanies, setAllCompanies] = useState<Company[]>(() => getStoredCompanies());
+  const [activeCompanyId, setActiveCompanyIdState] = useState<string>(() => getActiveCompanyId());
+  const [showCreateCompanyModal, setShowCreateCompanyModal] = useState(false);
 
-  // Authentication State
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(() => storage.isSessionActive());
+  const activeCompany = useMemo(() => {
+    return allCompanies.find((c) => c.id === activeCompanyId) || allCompanies[0];
+  }, [allCompanies, activeCompanyId]);
 
-  // User State
-  const [currentUser, setCurrentUser] = useState<User>(storage.getCurrentUser());
-  const [users, setUsers] = useState<User[]>(storage.getUsers());
+  // Primary State Data Stores for the Active Company
+  const initialCompanyData = useMemo(() => {
+    return getCompanyData(activeCompanyId, activeCompany);
+  }, [activeCompanyId]);
 
-  // Primary Navigation
-  const [activeModule, setActiveModule] = useState<ModuleId>(
-    currentUser.role === 'client_portal' ? 'vouchers' : 'dashboard'
-  );
+  const [assets, setAssets] = useState<Asset[]>(initialCompanyData.assets);
+  const [capexQueue, setCapexQueue] = useState<CapexItem[]>(initialCompanyData.capexQueue);
+  const [risks, setRisks] = useState<RiskFinding[]>(initialCompanyData.risks);
+  const [scanLogs, setScanLogs] = useState<VerificationScanRecord[]>(initialCompanyData.scanLogs);
 
-  // Core Data States
-  const [companyProfile, setCompanyProfile] = useState<CompanyProfile>(storage.getCompanyProfile());
-  const [vouchers, setVouchers] = useState<Voucher[]>(storage.getVouchers());
-  const [clients, setClients] = useState<Client[]>(storage.getClients());
+  // Sync state whenever activeCompanyId changes
+  const handleSwitchCompany = (companyId: string) => {
+    // Save current active company data before switching
+    saveCompanyData(activeCompanyId, {
+      company: activeCompany,
+      assets,
+      capexQueue,
+      risks,
+      scanLogs
+    });
 
-  // Connectivity
-  const [isOnline, setIsOnline] = useState<boolean>(navigator.onLine);
+    const targetCompany = allCompanies.find((c) => c.id === companyId) || allCompanies[0];
+    const targetData = getCompanyData(companyId, targetCompany);
 
-  // Modals & Sub-views
-  const [editingVoucher, setEditingVoucher] = useState<Voucher | null | undefined>(undefined);
-  const [previewVoucher, setPreviewVoucher] = useState<Voucher | null>(null);
-  const [isAIScanOpen, setIsAIScanOpen] = useState(false);
-  const [isAIAnalystOpen, setIsAIAnalystOpen] = useState(false);
+    setActiveCompanyId(companyId);
+    setActiveCompanyIdState(companyId);
+    setAssets(targetData.assets);
+    setCapexQueue(targetData.capexQueue);
+    setRisks(targetData.risks);
+    setScanLogs(targetData.scanLogs);
+  };
 
-  const [activeClientDetail, setActiveClientDetail] = useState<Client | null>(null);
-  const [editingClient, setEditingClient] = useState<Client | null | undefined>(undefined);
-  const [isBulkImportOpen, setIsBulkImportOpen] = useState(false);
-
-  const [isBackupModalOpen, setIsBackupModalOpen] = useState(false);
-  const [isGuideModalOpen, setIsGuideModalOpen] = useState(false);
-  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
-
-  // Initialize theme and online listeners
+  // Persist changes to active company dataset
   useEffect(() => {
-    storage.applyTheme(companyProfile.theme);
-
-    const handleOnline = () => setIsOnline(true);
-    const handleOffline = () => setIsOnline(false);
-
-    window.addEventListener('online', handleOnline);
-    window.addEventListener('offline', handleOffline);
-
-    return () => {
-      window.removeEventListener('online', handleOnline);
-      window.removeEventListener('offline', handleOffline);
-    };
-  }, []);
-
-  const refreshAllData = () => {
-    setCompanyProfile(storage.getCompanyProfile());
-    setVouchers(storage.getVouchers());
-    setClients(storage.getClients());
-    setCurrentUser(storage.getCurrentUser());
-    setUsers(storage.getUsers());
-  };
-
-  const handleSwitchUser = (newUser: User) => {
-    storage.setCurrentUser(newUser);
-    setCurrentUser(newUser);
-    refreshAllData();
-
-    // If switched to client portal, enforce module boundary
-    if (newUser.role === 'client_portal') {
-      setActiveModule('vouchers');
-    }
-  };
-
-  const handleLoginSuccess = (newUser: User) => {
-    storage.login(newUser);
-    setCurrentUser(newUser);
-    setIsAuthenticated(true);
-    refreshAllData();
-
-    if (newUser.role === 'client_portal') {
-      setActiveModule('vouchers');
-    } else {
-      setActiveModule('dashboard');
-    }
-  };
-
-  const handleLogout = () => {
-    storage.logout();
-    setIsAuthenticated(false);
-  };
-
-  // Voucher Handlers
-  const handleCreateVoucher = (type?: VoucherType) => {
-    if (currentUser.role === 'client_portal') return;
-
-    setActiveModule('vouchers');
-    if (type) {
-      const nextNum = storage.getNextDocNumber(type);
-      setEditingVoucher({
-        id: `vouch_${Date.now()}`,
-        type,
-        docNumber: nextNum,
-        docDate: new Date().toISOString().slice(0, 10),
-        clientId: '',
-        clientName: '',
-        clientAddress: '',
-        clientMobile: '',
-        clientTin: '',
-        currency: 'TZS',
-        items: [
-          {
-            id: 'item_1',
-            itemName: 'Bitumen Grade 60/70 (Steel Drums 200L / Bulk MT)',
-            description: '',
-            quantity: 1,
-            unit: 'MT',
-            rate: 1180000,
-            vatRule: 'optional',
-            vatApplied: true,
-            vatPercent: 18,
-            amount: 1180000,
-            vatAmount: 212400,
-            lineTotal: 1392400,
-          },
-        ],
-        subtotal: 1180000,
-        totalVat: 212400,
-        grandTotal: 1392400,
-        roundOffEnabled: false,
-        roundOffAdjustment: 0,
-        finalGrandTotal: 1392400,
-        status: 'draft',
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
+    if (activeCompanyId && activeCompany) {
+      saveCompanyData(activeCompanyId, {
+        company: activeCompany,
+        assets,
+        capexQueue,
+        risks,
+        scanLogs
       });
+    }
+  }, [assets, capexQueue, risks, scanLogs, activeCompanyId, activeCompany]);
+
+  // Modals & Navigation state
+  const [selectedAssetForModal, setSelectedAssetForModal] = useState<Asset | null>(null);
+  const [showDemoShowcase, setShowDemoShowcase] = useState(false);
+  const [showQuickTour, setShowQuickTour] = useState(false);
+  const [targetRiskForWorkflow, setTargetRiskForWorkflow] = useState<string | null>(null);
+
+  // Dynamic Reliability Score calculation
+  const reliabilityScore = useMemo(() => {
+    return calculateReliabilityScore(assets, risks);
+  }, [assets, risks]);
+
+  // Handlers for Data Ingestion & Company Creation
+  const handleCreateCompany = (
+    companyInput: Omit<Company, 'id' | 'createdAt'>,
+    mode: 'blank' | 'template' | 'custom_assets'
+  ) => {
+    const { newCompany, companyData } = createCompanyService(companyInput, mode);
+    const updatedCompanies = getStoredCompanies();
+    setAllCompanies(updatedCompanies);
+    setActiveCompanyIdState(newCompany.id);
+    setAssets(companyData.assets);
+    setCapexQueue(companyData.capexQueue);
+    setRisks(companyData.risks);
+    setScanLogs(companyData.scanLogs);
+    setActiveTab('data-studio');
+  };
+
+  const handleDeleteCompany = (companyId: string) => {
+    const updated = deleteCompanyService(companyId);
+    setAllCompanies(updated);
+    const fallbackId = updated[0]?.id || 'comp-assettrust';
+    handleSwitchCompany(fallbackId);
+  };
+
+  const handleImportAssets = (newAssets: Asset[], mode: 'append' | 'overwrite') => {
+    if (mode === 'overwrite') {
+      setAssets(newAssets);
     } else {
-      setEditingVoucher(null);
+      setAssets((prev) => [...newAssets, ...prev]);
     }
   };
 
-  const handleEditVoucher = (voucher: Voucher) => {
-    if (currentUser.role === 'client_portal') return;
-    setActiveModule('vouchers');
-    setEditingVoucher(voucher);
+  const handleImportCapex = (newCapex: CapexItem[]) => {
+    setCapexQueue((prev) => [...newCapex, ...prev]);
   };
 
-  const handleDuplicateVoucher = (voucher: Voucher) => {
-    if (currentUser.role === 'client_portal') return;
-    setActiveModule('vouchers');
-    const newDocNum = storage.getNextDocNumber(voucher.type);
-    setEditingVoucher({
-      ...voucher,
-      id: `vouch_${Date.now()}`,
-      docNumber: newDocNum,
-      docDate: new Date().toISOString().slice(0, 10),
-      status: 'draft',
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
-    });
+  const handleAddManualAsset = (newAsset: Asset) => {
+    setAssets((prev) => [newAsset, ...prev]);
   };
 
-  const handleConvertVoucher = (voucher: Voucher, targetType: VoucherType) => {
-    if (currentUser.role === 'client_portal') return;
-    setActiveModule('vouchers');
-    const newDocNum = storage.getNextDocNumber(targetType);
-    setEditingVoucher({
-      ...voucher,
-      id: `vouch_${Date.now()}`,
-      type: targetType,
-      docNumber: newDocNum,
-      docDate: new Date().toISOString().slice(0, 10),
-      status: 'draft',
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
-    });
-  };
-
-  const handleSaveVoucher = (savedVoucher: Voucher) => {
-    storage.saveVoucher(savedVoucher);
-    setVouchers(storage.getVouchers());
-    setEditingVoucher(undefined);
-  };
-
-  const handleDeleteVoucher = (id: string) => {
-    if (currentUser.role === 'client_portal') return;
-    storage.deleteVoucher(id);
-    setVouchers(storage.getVouchers());
-  };
-
-  const handleVoucherStatusChange = (id: string, newStatus: VoucherStatus) => {
-    if (currentUser.role === 'client_portal') return;
-    storage.updateVoucherStatus(id, newStatus);
-    setVouchers(storage.getVouchers());
-  };
-
-  const handleAIScanParsed = (parsed: Partial<Voucher>) => {
-    if (currentUser.role === 'client_portal') return;
-    setActiveModule('vouchers');
-    const targetType = parsed.type || 'SALES';
-    const nextNum = storage.getNextDocNumber(targetType);
-
-    setEditingVoucher({
-      id: `vouch_${Date.now()}`,
-      type: targetType,
-      docNumber: nextNum,
-      docDate: parsed.docDate || new Date().toISOString().slice(0, 10),
-      clientId: parsed.clientId || '',
-      clientName: parsed.clientName || 'Extracted Supplier / Client',
-      clientAddress: parsed.clientAddress || '',
-      clientMobile: parsed.clientMobile || '',
-      clientTin: parsed.clientTin || '',
-      currency: parsed.currency || 'TZS',
-      items: parsed.items || [
+  // Handler for adding newly approved capitalised asset from Capex Review into Asset Register
+  const handleAddCapitalisedAsset = (item: CapexItem, review: CapitalisationReviewResult) => {
+    const newAssetId = `AST-${item.plant.substring(0, 3).toUpperCase()}-NEW-${Date.now().toString().slice(-4)}`;
+    const newAsset: Asset = {
+      id: newAssetId,
+      name: item.description.substring(0, 60),
+      category: (review.recommendedCategory as any) || item.suggestedCategory,
+      plant: item.plant,
+      subLocation: 'Inbound Project Zone / Bay 1',
+      costINR: item.amountINR,
+      accumulatedDepINR: 0,
+      nbvINR: item.amountINR,
+      capitalisationDate: new Date().toISOString().split('T')[0],
+      usefulLifeYears: review.usefulLifeYears,
+      schIILifeYears: review.usefulLifeYears,
+      depreciationMethod: 'SLM',
+      status: 'Active',
+      verificationStatus: 'Verified',
+      riskLevel: 'Low',
+      lastVerifiedDate: new Date().toISOString().split('T')[0],
+      serialNumber: `SN-${Date.now().toString().slice(-6)}`,
+      qrCode: `QR-${newAssetId}`,
+      vendor: item.vendor,
+      invoiceNumber: item.invoiceNumber,
+      poNumber: item.poNumber,
+      grnNumber: `GRN-${Date.now().toString().slice(-5)}`,
+      itcClaimed: review.gstItcEligibility === 'Eligible',
+      gstPaidINR: review.gstItcEligibility === 'Eligible' ? item.amountINR * 0.18 : undefined,
+      description: item.description,
+      custodian: 'Project Manager / Plant Lead',
+      department: item.department,
+      components: review.componentisationDetails?.map((cmp, idx) => ({
+        id: `${newAssetId}-CMP-${idx + 1}`,
+        name: cmp.name,
+        costINR: Math.round((item.amountINR * cmp.costRatioPct) / 100),
+        accumulatedDepINR: 0,
+        nbvINR: Math.round((item.amountINR * cmp.costRatioPct) / 100),
+        usefulLifeYears: cmp.usefulLifeYears,
+        depreciationMethod: 'SLM',
+        notes: cmp.justification
+      })) || [],
+      anomalies: [],
+      historyEvents: [
         {
-          id: 'item_1',
-          itemName: 'Scanned Items',
-          description: '',
-          quantity: 1,
-          rate: parsed.subtotal || 0,
-          vatPercent: 18,
-          amount: parsed.subtotal || 0,
-          vatAmount: (parsed.subtotal || 0) * 0.18,
-          lineTotal: (parsed.subtotal || 0) * 1.18,
-        },
-      ],
-      subtotal: parsed.subtotal || 0,
-      totalVat: parsed.totalVat || 0,
-      grandTotal: parsed.grandTotal || 0,
-      roundOffEnabled: false,
-      roundOffAdjustment: 0,
-      finalGrandTotal: parsed.finalGrandTotal || parsed.grandTotal || 0,
-      notes: parsed.notes || 'Auto-extracted via Gemini OCR',
-      status: 'draft',
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
-    });
+          id: `EVT-${Date.now()}`,
+          date: new Date().toISOString().split('T')[0],
+          type: 'Capitalisation',
+          description: `Capitalised under Ind AS 16 upon formal AI Review & Controller approval (${item.humanApproval?.approver || 'Controller'}).`,
+          actor: item.humanApproval?.approver || 'Finance Controller',
+          status: 'Completed'
+        }
+      ]
+    };
+
+    setAssets((prev) => [newAsset, ...prev]);
   };
 
-  // Client Handlers
-  const handleSaveClient = (client: Client) => {
-    storage.saveClient(client);
-    setClients(storage.getClients());
+  // Quick navigation helpers
+  const handleNavigateToAsset = (assetId: string) => {
+    const found = assets.find((a) => a.id === assetId);
+    if (found) {
+      setSelectedAssetForModal(found);
+    } else {
+      setActiveTab('register');
+    }
   };
 
-  const handleDeleteClient = (clientId: string) => {
-    storage.deleteClient(clientId);
-    setClients(storage.getClients());
+  const handleNavigateToExceptions = (riskId?: string) => {
+    if (riskId) {
+      setTargetRiskForWorkflow(riskId);
+    }
+    setActiveTab('exceptions');
   };
 
-  const handleCreateVoucherForClient = (client: Client) => {
-    if (currentUser.role === 'client_portal') return;
-    setActiveModule('vouchers');
-    const nextNum = storage.getNextDocNumber('SALES');
-    setEditingVoucher({
-      id: `vouch_${Date.now()}`,
-      type: 'SALES',
-      docNumber: nextNum,
-      docDate: new Date().toISOString().slice(0, 10),
-      clientId: client.id,
-      clientName: client.name,
-      clientAddress: client.address,
-      clientMobile: client.mobile,
-      clientTin: client.tin,
-      currency: 'TZS',
-      items: [
-        {
-          id: 'item_1',
-          itemName: 'Bitumen Grade 60/70 (Steel Drums 200L / Bulk MT)',
-          description: '',
-          quantity: 1,
-          unit: 'MT',
-          rate: 1180000,
-          vatRule: 'optional',
-          vatApplied: true,
-          vatPercent: 18,
-          amount: 1180000,
-          vatAmount: 212400,
-          lineTotal: 1392400,
-        },
-      ],
-      subtotal: 1180000,
-      totalVat: 212400,
-      grandTotal: 1392400,
-      roundOffEnabled: false,
-      roundOffAdjustment: 0,
-      finalGrandTotal: 1392400,
-      status: 'draft',
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
-    });
-  };
-
-  // If not authenticated, render the dedicated Landing & Authentication Gate
-  if (!isAuthenticated) {
-    return <AuthScreen onLoginSuccess={handleLoginSuccess} />;
-  }
+  // Find demo CNC asset for spotlight
+  const demoCncAsset = assets.find((a) => a.id === 'AST-PUN-CNC-0042') || assets[0];
 
   return (
-    <div id="desktop-app-root" className="flex h-screen w-screen overflow-hidden bg-slate-100 font-sans text-slate-900">
-      {/* Persistent Desktop Sidebar */}
-      <Sidebar
-        activeModule={activeModule}
-        onSelectModule={(mod) => {
-          // Prevent client portal users from accessing internal routes
-          if (currentUser.role === 'client_portal' && !['vouchers', 'pdf-toolkit'].includes(mod)) {
-            return;
-          }
-          setActiveModule(mod);
-          setEditingVoucher(undefined);
-        }}
-        onOpenBackupModal={() => setIsBackupModalOpen(true)}
-        onOpenGuideModal={() => setIsGuideModalOpen(true)}
-        onOpenAuthModal={() => setIsAuthModalOpen(true)}
-        onLogout={handleLogout}
-        companyProfile={companyProfile}
-        isOnline={isOnline}
-        currentUser={currentUser}
-        users={users}
-        onSwitchUser={handleSwitchUser}
+    <div className="min-h-screen bg-[#F1F5F9] text-slate-800 flex flex-col font-sans selection:bg-blue-600 selection:text-white">
+      {/* Global Navigation Header with Multi-Company Selector */}
+      <Navbar
+        activeTab={activeTab}
+        setActiveTab={setActiveTab}
+        currencyMode={currencyMode}
+        setCurrencyMode={setCurrencyMode}
+        reliabilityScore={reliabilityScore}
+        onOpenDemoSpotlight={() => setShowDemoShowcase(true)}
+        onOpenQuickTour={() => setShowQuickTour(true)}
+        openRiskCount={risks.filter(r => r.status !== 'Closed').length}
+        activeCompany={activeCompany}
+        allCompanies={allCompanies}
+        onSwitchCompany={handleSwitchCompany}
+        onOpenCreateCompanyModal={() => setShowCreateCompanyModal(true)}
       />
 
-      {/* Main Workspace Frame */}
-      <div className="flex-1 flex flex-col min-w-0 h-screen overflow-hidden">
-        {/* Top Header */}
-        <Header
-          activeModule={activeModule}
-          companyProfile={companyProfile}
-          isOnline={isOnline}
-          currentUser={currentUser}
-          onCreateVoucher={() => handleCreateVoucher()}
-          onCreateClient={() => setEditingClient(null)}
-          onOpenBackupModal={() => setIsBackupModalOpen(true)}
-          onOpenAIAnalyst={() => setIsAIAnalystOpen(true)}
-          onLogout={handleLogout}
+      {/* Main View Container */}
+      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        {activeTab === 'control-tower' && (
+          <ControlTower
+            assets={assets}
+            risks={risks}
+            capexQueue={capexQueue}
+            reliabilityScore={reliabilityScore}
+            currencyMode={currencyMode}
+            onNavigateTab={setActiveTab}
+            onSelectAsset={setSelectedAssetForModal}
+            onOpenDemoSpotlight={() => setShowDemoShowcase(true)}
+          />
+        )}
+
+        {activeTab === 'data-studio' && (
+          <CompanyDataStudio
+            activeCompany={activeCompany}
+            allCompanies={allCompanies}
+            assets={assets}
+            capexQueue={capexQueue}
+            currencyMode={currencyMode}
+            onSwitchCompany={handleSwitchCompany}
+            onOpenCreateCompanyModal={() => setShowCreateCompanyModal(true)}
+            onDeleteCompany={handleDeleteCompany}
+            onImportAssets={handleImportAssets}
+            onImportCapex={handleImportCapex}
+            onAddManualAsset={handleAddManualAsset}
+          />
+        )}
+
+        {activeTab === 'register' && (
+          <AssetRegister
+            assets={assets}
+            currencyMode={currencyMode}
+            onSelectAsset={setSelectedAssetForModal}
+            openDemoShowcase={() => setShowDemoShowcase(true)}
+          />
+        )}
+
+        {activeTab === 'capex-review' && (
+          <AiCapitalisationReview
+            capexQueue={capexQueue}
+            setCapexQueue={setCapexQueue}
+            currencyMode={currencyMode}
+            onAddCapitalisedAsset={handleAddCapitalisedAsset}
+          />
+        )}
+
+        {activeTab === 'physical-verification' && (
+          <PhysicalVerification
+            assets={assets}
+            setAssets={setAssets}
+            scanLogs={scanLogs}
+            setScanLogs={setScanLogs}
+            risks={risks}
+            setRisks={setRisks}
+            currencyMode={currencyMode}
+            onNavigateToAsset={handleNavigateToAsset}
+          />
+        )}
+
+        {activeTab === 'risk-radar' && (
+          <RiskEngine
+            risks={risks}
+            setRisks={setRisks}
+            currencyMode={currencyMode}
+            onNavigateToAsset={handleNavigateToAsset}
+            onNavigateToExceptions={handleNavigateToExceptions}
+          />
+        )}
+
+        {activeTab === 'exceptions' && (
+          <ExceptionsWorkflow
+            risks={risks}
+            setRisks={setRisks}
+            currencyMode={currencyMode}
+            onNavigateToAsset={handleNavigateToAsset}
+            targetRiskId={targetRiskForWorkflow}
+          />
+        )}
+
+        {activeTab === 'policy' && (
+          <PolicyCompliance />
+        )}
+
+        {activeTab === 'audit-readiness' && (
+          <AuditReadiness
+            assets={assets}
+            risks={risks}
+            reliabilityScore={reliabilityScore}
+            currencyMode={currencyMode}
+          />
+        )}
+
+        {activeTab === 'user-manual' && (
+          <UserManual
+            onNavigateTab={setActiveTab}
+            onOpenDemoSpotlight={() => setShowDemoShowcase(true)}
+          />
+        )}
+      </main>
+
+      {/* Footer */}
+      <footer className="border-t border-slate-200 bg-white py-4 text-xs text-slate-500 shadow-2xs">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-2">
+          <div className="flex items-center space-x-2">
+            <span className="font-medium text-slate-600">
+              {activeCompany.name} ({activeCompany.shortCode}) • AssetTrust AI™ Multi-Entity Subledger & Ingestion Platform
+            </span>
+          </div>
+          <div className="flex items-center space-x-4">
+            <button
+              onClick={() => setActiveTab('data-studio')}
+              className="text-purple-600 hover:text-purple-800 font-semibold"
+            >
+              Data Ingestion & PDF AI Studio
+            </button>
+            <span className="text-slate-300">|</span>
+            <button
+              onClick={() => setActiveTab('user-manual')}
+              className="text-blue-600 hover:text-blue-800 font-semibold underline"
+            >
+              Operating Manual & FAQs
+            </button>
+            <span className="text-slate-300">|</span>
+            <button
+              onClick={() => setShowQuickTour(true)}
+              className="text-slate-600 hover:text-slate-900 font-medium"
+            >
+              Interactive Quick Tour
+            </button>
+          </div>
+        </div>
+      </footer>
+
+      {/* Create Company Modal */}
+      <CompanyModal
+        isOpen={showCreateCompanyModal}
+        onClose={() => setShowCreateCompanyModal(false)}
+        onCreateCompany={handleCreateCompany}
+      />
+
+      {/* Quick Start Guide Modal */}
+      <QuickStartGuideModal
+        isOpen={showQuickTour}
+        onClose={() => setShowQuickTour(false)}
+        onNavigateTab={setActiveTab}
+        onOpenManual={() => {
+          setShowQuickTour(false);
+          setActiveTab('user-manual');
+        }}
+      />
+
+      {/* 360-Degree Asset Dossier Modal */}
+      {selectedAssetForModal && (
+        <AssetDetailModal
+          asset={selectedAssetForModal}
+          onClose={() => setSelectedAssetForModal(null)}
+          currencyMode={currencyMode}
+          onNavigateToRisk={(assetId) => {
+            setSelectedAssetForModal(null);
+            const r = risks.find((rk) => rk.assetId === assetId);
+            if (r) {
+              handleNavigateToExceptions(r.id);
+            } else {
+              setActiveTab('risk-radar');
+            }
+          }}
         />
+      )}
 
-        {/* Scrollable Viewport */}
-        <main className="flex-1 overflow-y-auto bg-slate-100/90">
-          {/* MODULE 0: HOME DASHBOARD (INTERNAL ONLY) */}
-          {activeModule === 'dashboard' && currentUser.role !== 'client_portal' && (
-            <HomeDashboardView
-              onNavigate={(mod) => setActiveModule(mod)}
-              onCreateVoucher={(type) => handleCreateVoucher(type)}
-              onOpenAIAnalyst={() => setIsAIAnalystOpen(true)}
-              onSelectClient={(clientId) => {
-                const found = clients.find((c) => c.id === clientId);
-                if (found) {
-                  setActiveClientDetail(found);
-                }
-              }}
-            />
-          )}
-
-          {/* MODULE 1: VOUCHERS & INVOICING */}
-          {activeModule === 'vouchers' && (
-            <>
-              {editingVoucher !== undefined ? (
-                <VoucherEditor
-                  initialVoucher={editingVoucher}
-                  clients={clients}
-                  companyProfile={companyProfile}
-                  onSave={handleSaveVoucher}
-                  onCancel={() => setEditingVoucher(undefined)}
-                  onPreview={(v) => setPreviewVoucher(v)}
-                />
-              ) : (
-                <VoucherList
-                  vouchers={vouchers}
-                  companyProfile={companyProfile}
-                  onCreateVoucher={handleCreateVoucher}
-                  onEditVoucher={handleEditVoucher}
-                  onPreviewVoucher={(v) => setPreviewVoucher(v)}
-                  onDuplicateVoucher={handleDuplicateVoucher}
-                  onConvertVoucher={handleConvertVoucher}
-                  onDeleteVoucher={handleDeleteVoucher}
-                  onStatusChange={handleVoucherStatusChange}
-                  onOpenAIScan={() => setIsAIScanOpen(true)}
-                />
-              )}
-            </>
-          )}
-
-          {/* MODULE 2: OFFLINE PDF TOOLKIT */}
-          {activeModule === 'pdf-toolkit' && <PDFToolkitView companyProfile={companyProfile} />}
-
-          {/* MODULE 3: CLIENTELE (CRM) - INTERNAL ONLY */}
-          {activeModule === 'clientele' && currentUser.role !== 'client_portal' && currentUser.role !== 'procurement' && (
-            <ClientList
-              clients={clients}
-              vouchers={vouchers}
-              onOpenClientDetail={(c) => setActiveClientDetail(c)}
-              onOpenClientForm={(c) => setEditingClient(c || null)}
-              onDeleteClient={handleDeleteClient}
-              onCreateVoucherForClient={handleCreateVoucherForClient}
-              onOpenBulkImport={() => setIsBulkImportOpen(true)}
-            />
-          )}
-
-          {/* MODULE 4: PRODUCTS MASTER - ADMIN ONLY */}
-          {activeModule === 'products' && currentUser.role === 'admin' && (
-            <ManageProductsView />
-          )}
-
-          {/* MODULE 5: PAYMENT TRENDS & DEBT AGING - ADMIN & FINANCE */}
-          {activeModule === 'payment-trends' && (currentUser.role === 'admin' || currentUser.role === 'finance') && (
-            <PaymentTrendsView />
-          )}
-
-          {/* MODULE 6: GLOBAL TRADE INTELLIGENCE - INTERNAL ONLY */}
-          {activeModule === 'intelligence' && currentUser.role !== 'client_portal' && (
-            <GlobalIntelligenceView onOpenAIAnalyst={() => setIsAIAnalystOpen(true)} />
-          )}
-
-          {/* MODULE 7: SIGN-UP GATEKEEPER - ADMIN ONLY */}
-          {activeModule === 'signups' && currentUser.role === 'admin' && (
-            <SignupRequestsView />
-          )}
-
-          {/* MODULE 8: COMPANY PROFILE & BRANDING - ADMIN ONLY */}
-          {activeModule === 'branding' && currentUser.role === 'admin' && (
-            <CompanyProfileSettings
-              companyProfile={companyProfile}
-              onProfileUpdated={(updated) => setCompanyProfile(updated)}
-            />
-          )}
-        </main>
-      </div>
-
-      {/* Global Modals */}
-      {/* 1. Voucher Preview Modal */}
-      <VoucherPreviewModal
-        voucher={previewVoucher}
-        companyProfile={companyProfile}
-        isOpen={Boolean(previewVoucher)}
-        onClose={() => setPreviewVoucher(null)}
-      />
-
-      {/* 2. AI Invoice Scan Modal */}
-      <AIInvoiceScanModal
-        isOpen={isAIScanOpen}
-        onClose={() => setIsAIScanOpen(false)}
-        onInvoiceParsed={handleAIScanParsed}
-      />
-
-      {/* 3. AI Grounded Trade Analyst Modal */}
-      <AIAssistantModal
-        isOpen={isAIAnalystOpen}
-        onClose={() => setIsAIAnalystOpen(false)}
-      />
-
-      {/* 4. Client Detail / Relationship Timeline Modal */}
-      <ClientDetailModal
-        client={activeClientDetail}
-        vouchers={vouchers}
-        isOpen={Boolean(activeClientDetail)}
-        onClose={() => setActiveClientDetail(null)}
-        onDuplicateSale={(v) => {
-          setActiveClientDetail(null);
-          handleDuplicateVoucher(v);
-        }}
-        onCreateNewSale={(c) => {
-          setActiveClientDetail(null);
-          handleCreateVoucherForClient(c);
-        }}
-        onPreviewVoucher={(v) => setPreviewVoucher(v)}
-      />
-
-      {/* 5. Client Form Modal */}
-      <ClientFormModal
-        initialClient={editingClient}
-        isOpen={editingClient !== undefined}
-        onClose={() => setEditingClient(undefined)}
-        onSave={handleSaveClient}
-      />
-
-      {/* 6. Bulk Import Modal */}
-      <BulkImportModal
-        isOpen={isBulkImportOpen}
-        onClose={() => setIsBulkImportOpen(false)}
-        onImportComplete={refreshAllData}
-      />
-
-      {/* 7. Database Backup & Restore Modal */}
-      <BackupRestoreModal
-        isOpen={isBackupModalOpen}
-        onClose={() => setIsBackupModalOpen(false)}
-        onRefreshData={refreshAllData}
-      />
-
-      {/* 8. Desktop User Guide Modal */}
-      <GettingStartedModal
-        isOpen={isGuideModalOpen}
-        onClose={() => setIsGuideModalOpen(false)}
-      />
-
-      {/* 9. Multi-Tenant Auth & Onboarding Modal */}
-      <AuthModal
-        isOpen={isAuthModalOpen}
-        onClose={() => setIsAuthModalOpen(false)}
-        onUserChanged={handleSwitchUser}
-      />
+      {/* ₹48.5L CNC Machine Demo Spotlight Showcase Modal */}
+      {demoCncAsset && (
+        <DemoAssetShowcase
+          asset={demoCncAsset}
+          isOpen={showDemoShowcase}
+          onClose={() => setShowDemoShowcase(false)}
+          currencyMode={currencyMode}
+          onOpenFullDossier={(ast) => {
+            setShowDemoShowcase(false);
+            setSelectedAssetForModal(ast);
+          }}
+        />
+      )}
     </div>
   );
 }
+
