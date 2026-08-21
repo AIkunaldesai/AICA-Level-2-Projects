@@ -1,326 +1,268 @@
-# H P M S & Associates — CA Firm Practice Management System
+# Upload Your Project Folder to the AICA Level 2 Projects Repository
 
-A simple, practical practice-management application for a small Chartered
-Accountant firm (5–10 team members), built with **Python + Streamlit + SQLite**.
+**Target repository:** [aiinicai/AICA-Level-2-Projects](https://github.com/aiinicai/AICA-Level-2-Projects)
 
-It connects the complete office cycle in one place:
+This guide explains how to contribute your complete project folder to the **AICA-Level-2-Projects** repository using GitHub’s **Fork + Pull Request** workflow.
 
-> **Client → Task → Delegation → Due Date → Work Status → Remarks → Completion → Billing → Payment → Outstanding Collection**
+Two methods are covered:
 
----
-
-## 1. Problem Statement
-
-Small and medium CA firms handle a large number of clients, employees,
-assignments and statutory deadlines. In practice, work is often delegated
-verbally, through spreadsheets or through messaging applications. As a result:
-
-* The Partner cannot say, at any given moment, what the status of an
-  assignment is, who is handling it, or what the client was last told.
-* Statutory due dates are tracked in individual diaries rather than centrally.
-* After the work is completed, billing is remembered separately — and
-  completed assignments frequently remain unbilled.
-* Collection of professional fees is followed up from memory, and part
-  payments make the outstanding balance harder to track.
-
-## 2. Proposed Solution
-
-A single, centralised, locally-run application in which every assignment is
-recorded against a client, delegated to a team member with a due date, updated
-by that team member with a status and a dated remark, and then billed and
-collected — with the outstanding balance calculated automatically.
+1. **Website-only method** — no software installation required.
+2. **Git command-line method** — recommended for complete project folders and projects containing many files.
 
 ---
 
-## 3. Objectives
+## Fork + Pull Request Workflow
 
-1. Maintain a Client Master, Employee Master and Task Master for the firm.
-2. Delegate work with a due date, a priority and written instructions.
-3. Let each employee update only their own work, with a permanent remark history.
-4. Give the Partner a single Task Tracker and a Client 360° view.
-5. Highlight the four exceptions that actually cost a firm money:
-   **overdue work**, **completed but not billed**, **payment overdue**, and
-   **work stuck waiting for the client**.
-6. Track bills, part payments, outstanding amounts and collection follow-ups.
+1. **Fork:** Create a personal copy of `aiinicai/AICA-Level-2-Projects` under your GitHub account.
+2. **Add your folder:** Upload or copy your project folder into your fork.
+3. **Commit:** Save the changes in your fork with a clear commit message.
+4. **Open a Pull Request:** Request the `aiinicai` account to merge your changes into the original repository.
+5. **Merge:** The repository owner reviews and accepts your Pull Request. After it is merged, your project folder will appear in the official repository.
 
 ---
 
-## 4. Features
+# Method 1: Website Only
 
-### Work management
-* Client Master — add, edit, search and view clients (PAN, GSTIN, type, contact).
-* Employee Master — the Admin adds an employee before that person can register.
-* Task Master — preloaded with the standard CA-firm assignments across
-  GST, Income Tax, Audit, ROC, Accounts and Other, plus **+ Add New Task Type**.
-* Task delegation with client, task, assignee, priority, dates, financial year
-  and instructions.
-* Eight work statuses and 0/25/50/75/100 % progress. Marking a task
-  **Completed** automatically sets progress to 100 %.
-* **Task history** — remarks are never overwritten. Every change is stored with
-  the old status, the new status, the user and the date/time.
-* **Task Tracker** — one screen with filters for client, employee, task, status,
-  priority and due-date range, plus quick views for Pending / Overdue /
-  Due Today / Upcoming / Completed.
-* **Due-date tracking** with colour coding:
-  🔴 Overdue 🟠 Urgent or due today 🟡 Waiting 🔵 In progress 🟢 Completed.
+Use this method if:
 
-### Billing and collection
-* Simple bill entry — professional fees + GST + other charges, with the
-  **total calculated automatically**.
-* **Completed but Not Billed** — any completed task with no bill against it is
-  flagged on the Admin dashboard.
-* **Part payments** — a bill may receive many payments; each is stored
-  separately with date, mode and reference.
-* **Automatic payment status** — Unpaid / Partially Paid / Paid, with the
-  outstanding balance derived, never typed in by hand.
-* **Collection follow-up** — dated follow-up remarks are appended, never deleted.
+- You do not want to install Git.
+- Your project contains relatively few files.
+- You do not need to preserve the project’s earlier commit history.
 
-### Management views
-* Admin Dashboard with work KPIs and financial KPIs.
-* Client 360° — one screen showing a client's full work position and full
-  billing position.
-* Team-wise workload and client-wise summary.
-* Simple Plotly charts: task status, employee workload, collection status and
-  client-wise outstanding.
+> [!NOTE]
+> GitHub’s web uploader generally allows up to 100 files in a single upload. If your project contains more files, upload them in batches or use the Git command-line method.
+
+## Step 1: Fork the Repository
+
+1. Log in to your GitHub account.
+2. Open the [AICA-Level-2-Projects repository](https://github.com/aiinicai/AICA-Level-2-Projects).
+3. Click **Fork** in the upper-right corner of the page.
+4. On the **Create a new fork** page, keep the default settings.
+5. Click **Create fork**.
+
+You will be redirected to your personal copy of the repository:
+
+```text
+https://github.com/YOUR-USERNAME/AICA-Level-2-Projects
+```
+
+Replace `YOUR-USERNAME` with your GitHub username.
+
+## Step 2: Upload Your Project Folder
+
+GitHub provides two ways to add a folder through the website.
+
+### Option A: Drag and Drop the Complete Folder
+
+1. Open your fork of the repository.
+2. Click **Add file** → **Upload files**.
+3. Open the parent location of your project folder in File Explorer.
+4. Drag the **complete project folder**—not only the files inside it—into GitHub’s upload area.
+5. Wait until all the files appear in the upload list.
+
+Modern browsers such as Google Chrome and Microsoft Edge generally preserve the folder structure during upload.
+
+### Option B: Create the Folder Using a File Path
+
+1. Open your fork of the repository.
+2. Click **Add file** → **Create new file**.
+3. In the filename box, enter:
+
+   ```text
+   MyProjectName/README.md
+   ```
+
+   Typing `/` in the filename automatically creates the folder.
+
+4. Add a short description of your project to the new `README.md` file.
+5. Click **Commit changes**.
+6. Open the newly created folder.
+7. Click **Add file** → **Upload files** and upload the remaining project files.
+
+Replace `MyProjectName` with the name of your project.
+
+## Step 3: Commit the Upload
+
+1. Scroll down to the **Commit changes** section.
+2. Enter a clear commit message, for example:
+
+   ```text
+   Add <Your Name> - <Project Name> project folder
+   ```
+
+3. Keep **Commit directly to the main branch** selected.
+4. Click **Commit changes**.
+
+Because this is your personal fork, committing directly to its `main` branch is acceptable for this submission workflow.
+
+## Step 4: Open a Pull Request
+
+1. Return to the main page of your fork.
+2. GitHub may display a banner stating:
+
+   ```text
+   This branch is X commits ahead of aiinicai:main
+   ```
+
+3. Click **Contribute** → **Open pull request**.
+
+Alternatively:
+
+1. Open the **Pull requests** tab.
+2. Click **New pull request**.
+
+Before creating the Pull Request, confirm the following direction:
+
+| Setting | Selection |
+| --- | --- |
+| Base repository | `aiinicai/AICA-Level-2-Projects` |
+| Base branch | `main` |
+| Head repository | `YOUR-USERNAME/AICA-Level-2-Projects` |
+| Compare branch | `main` |
+
+Then:
+
+1. Enter a clear Pull Request title, for example:
+
+   ```text
+   Add AICA Level 2 Project - <Your Name>
+   ```
+
+2. In the description, briefly explain:
+   - The purpose of your project.
+   - Its main features.
+   - Any setup or usage instructions.
+3. Click **Create pull request**.
+
+## Step 5: Wait for Review and Merge
+
+The owner of the `aiinicai/AICA-Level-2-Projects` repository will receive your Pull Request.
+
+The repository owner may:
+
+- Review your project.
+- Ask questions.
+- Suggest changes.
+- Approve and merge the Pull Request.
+
+If changes are requested, update the files in your fork and commit them. Your existing Pull Request will update automatically.
+
+After the Pull Request is merged, your project folder will become part of the official repository.
 
 ---
 
-## 5. Technology
+# Method 2: Git Command Line
 
-| Layer | Technology |
-|---|---|
-| Language | Python 3.9+ |
-| User interface | Streamlit |
-| Database | SQLite (single local file `hpms.db`) |
-| Data handling | Pandas |
-| Charts | Plotly Express |
-| Security | `hashlib` PBKDF2-HMAC-SHA256 password hashing |
+This method is recommended when:
 
-No paid APIs, no AI keys, no machine learning, no internet connection required.
+- Your project contains many files.
+- You want to upload the complete folder structure reliably.
+- You are comfortable using Git commands.
 
----
+## Prerequisites
 
-## 6. Installation
+Before beginning:
+
+- Install [Git](https://git-scm.com/downloads).
+- Create or log in to your GitHub account.
+- Fork the [AICA-Level-2-Projects repository](https://github.com/aiinicai/AICA-Level-2-Projects) as explained in Method 1.
+
+## Step 1: Clone Your Fork
+
+Open Terminal, Command Prompt, PowerShell, or Git Bash and run:
 
 ```bash
-# 1. Clone the repository
-git clone <your-repository-url>
-cd hpms-practice-management
-
-# 2. (Optional but recommended) create a virtual environment
-python -m venv .venv
-# Windows:
-.venv\Scripts\activate
-# macOS / Linux:
-source .venv/bin/activate
-
-# 3. Install the requirements
-pip install -r requirements.txt
-
-# 4. Run the application
-streamlit run app.py
+git clone https://github.com/YOUR-USERNAME/AICA-Level-2-Projects.git
 ```
 
-The application opens in the browser at `http://localhost:8501`.
-The database file `hpms.db` is created automatically on first run.
-
----
-
-## 7. How to Run — first-time steps
-
-1. Open the application. Because no account exists, the **Sign Up** tab is open
-   to everyone **once**.
-2. Register yourself. **The first account automatically becomes the Admin**,
-   and open public signup then stops.
-3. Go to **Team → Add Employee** and enter each staff member's name, email,
-   role, mobile and status.
-4. Go to **Clients → Add Client** and enter your clients.
-5. Go to **Delegate Task**, choose the client, the task, the employee, the
-   priority and the due date, and click **Delegate Task**.
-6. Ask the employee to sign up using the **same email address** you entered in
-   the Team screen. Any other address is refused with
-   *"This email address has not been authorised by Admin."*
-7. The employee logs in and sees only their own tasks under **My Tasks**.
-
-### Demo data (for the project video)
-
-On the very first screen (before any account is created) there is a
-**Load Demo Data** button. The Admin can also load it later from
-**Settings → Demo Data**. Or from the command line:
+Then open the cloned repository:
 
 ```bash
-python database.py --demo
+cd AICA-Level-2-Projects
 ```
 
-This creates fictional data: 8 employees, 10 clients, 30 tasks, 10 bills and
-several full and part payments — including an overdue task, a task due today,
-work in progress, work waiting for the client, completed work, a completed but
-unbilled task, an unpaid bill, a partially paid bill, a fully paid bill and an
-overdue outstanding amount.
+Replace `YOUR-USERNAME` with your GitHub username.
 
-Demo logins:
+## Step 2: Copy Your Project Folder
 
-| Role | Email | Password |
-|---|---|---|
-| Admin | `admin@hpms.in` | `admin123` |
-| Employee (any of the 8) | e.g. `rahul@hpms.in` | `demo123` |
+Copy your complete project folder into the cloned `AICA-Level-2-Projects` directory.
 
-> Change these passwords before using the application for real work.
+Recommended folder naming format:
 
----
-
-## 8. User Roles
-
-### Admin
-Dashboard · Task Tracker · Delegate Task · Client 360° · Clients · Team ·
-Task Master · Billing & Collection · Analytics · Settings
-
-Can view all tasks of all employees, reassign work, maintain all masters,
-raise bills, record payments, add collection follow-ups and view analytics.
-
-### Employee
-My Tasks · My Completed Tasks · Settings
-
-Can see **only** the tasks assigned to them, and can update the status,
-progress and remarks of those tasks. Employees cannot see other employees'
-tasks and cannot see any billing, payment or outstanding information.
-
----
-
-## 9. Database
-
-SQLite, nine tables:
-
-| Table | Purpose |
-|---|---|
-| `users` | Login accounts (name, email, hashed password, role, is_admin, active) |
-| `authorised_employees` | Employee Master — the list of emails allowed to sign up |
-| `clients` | Client Master |
-| `task_types` | Task Master (category + task name) |
-| `tasks` | Delegated assignments with due date, priority, status and progress |
-| `task_updates` | Full activity history of every task (never overwritten) |
-| `bills` | Bills raised, with the auto-calculated total |
-| `payments` | Every payment / part payment against a bill |
-| `collection_followups` | Dated collection follow-up remarks |
-
-Relationships:
-
-```
-clients ──< tasks >── task_types
-              │
-              ├──< task_updates >── users
-              │
-              └──< bills ──< payments
-                     │
-                     └──< collection_followups
-
-authorised_employees ──< tasks   (assigned_to)
-authorised_employees ──  users   (linked by email address)
+```text
+YourName-ProjectName/
 ```
 
-Derived values are **never stored** — they are always calculated:
+Example:
 
-* `Total Bill = Professional Fees + GST + Other Charges`
-* `Total Received = SUM(payments for that bill)`
-* `Outstanding = Total Bill − Total Received`
-* `Payment Status = Unpaid / Partially Paid / Paid`
-
----
-
-## 10. Security
-
-* Passwords are hashed with **PBKDF2-HMAC-SHA256** (100,000 iterations) using a
-  fresh random 16-byte salt per password. Plain-text passwords are never stored.
-* Password comparison uses `hmac.compare_digest` to avoid timing attacks.
-* Session-based login through `st.session_state`.
-* Role-based access: the sidebar shows only the screens a role is allowed to
-  open, and `main()` blocks an admin screen even if the page name is forced.
-* **Access control is enforced in the database queries.** `get_tasks_df()` adds
-  `WHERE t.assigned_to = ?` for a non-admin user, so an employee physically
-  cannot fetch another employee's row — it is not merely a hidden button.
-* Signup is restricted to email addresses already present in the Employee Master.
-* Basic input validation on emails, passwords, dates, amounts and duplicate
-  codes / bill numbers.
-* `.gitignore` excludes `*.db`, so firm data is never pushed to GitHub.
-
----
-
-## 11. Project Files
-
-```
-app.py              All Streamlit screens and the sidebar router
-database.py         Schema, task master seed, all queries, demo data
-auth.py             Password hashing, signup rules, login
-test_scenarios.py   Automated run of the four acceptance scenarios
-requirements.txt    Dependencies
-README.md           This file
-.gitignore          Keeps the database and caches out of the repository
+```text
+Rahul-Sharma-AI-Invoice-Analyzer/
 ```
 
----
+## Step 3: Review the Changes
 
-## 12. Testing
-
-The four acceptance scenarios (Admin setup → Employee update → Admin review →
-Billing and part payment) run automatically against a temporary database:
+Run:
 
 ```bash
-python test_scenarios.py
+git status
 ```
 
-Expected output ends with `36 checks passed, 0 failed`. The script verifies,
-among other things, that the first user becomes Admin, that an unauthorised
-email is refused, that an employee cannot fetch another employee's task, that
-completing a task forces progress to 100 %, that a ₹50,000 bill moves
-Unpaid → Partially Paid (₹20,000 received, ₹30,000 outstanding) → Paid, and
-that all of it survives a restart.
+Confirm that Git lists only the files and folders you intend to submit.
+
+## Step 4: Stage and Commit the Project
+
+Stage your project folder:
+
+```bash
+git add YourName-ProjectName/
+```
+
+Commit the changes:
+
+```bash
+git commit -m "Add <Your Name> - <Project Name> project folder"
+```
+
+## Step 5: Push the Changes to Your Fork
+
+Run:
+
+```bash
+git push origin main
+```
+
+Your project folder will now appear in your fork on GitHub.
+
+## Step 6: Open a Pull Request
+
+1. Open your fork on GitHub.
+2. Click **Contribute** → **Open pull request**.
+3. Confirm the base and compare repositories:
+
+| Setting | Selection |
+| --- | --- |
+| Base repository | `aiinicai/AICA-Level-2-Projects` |
+| Base branch | `main` |
+| Head repository | `YOUR-USERNAME/AICA-Level-2-Projects` |
+| Compare branch | `main` |
+
+4. Add a clear title and project description.
+5. Click **Create pull request**.
 
 ---
 
-## 13. Screenshots
+## Before Submitting
 
-Add your own screenshots here when preparing the report:
+Please verify the following:
 
-| Screen | File |
-|---|---|
-| Login | `screenshots/01-login.png` |
-| Admin Dashboard | `screenshots/02-dashboard.png` |
-| Task Tracker | `screenshots/03-task-tracker.png` |
-| Delegate Task | `screenshots/04-delegate.png` |
-| Employee — My Tasks | `screenshots/05-my-tasks.png` |
-| Client 360° | `screenshots/06-client-360.png` |
-| Billing & Collection | `screenshots/07-billing.png` |
-| Analytics | `screenshots/08-analytics.png` |
+- Your complete project is inside one clearly named folder.
+- Your folder includes a `README.md` explaining the project.
+- The project does not contain passwords, API keys, access tokens, or other confidential information.
+- Unnecessary generated files and dependency folders are excluded where applicable.
+- The project opens or runs using the instructions included in its `README.md`.
+- Your Pull Request targets `aiinicai/AICA-Level-2-Projects` on the `main` branch.
 
----
+## Need to Update Your Submission?
 
-## 14. Limitations
+If your Pull Request is still open, make the required changes in the same fork and branch, then commit and push them. GitHub will automatically add the new commits to the existing Pull Request.
 
-* Designed for a single office / single machine. SQLite is not intended for
-  many simultaneous writers.
-* This is a **billing and collection tracker**, not an accounting or invoicing
-  package — it does not produce a printable tax invoice or maintain ledgers.
-* No document storage, no e-mail or WhatsApp reminders, no portal integration.
-* No audit trail for master-data edits (only task and collection history).
-* Password reset must be done by the Admin; there is no "forgot password" email.
-* Amounts are stored as floating-point rupees, which is adequate for tracking
-  but not for statutory books of account.
-
----
-
-## 15. Future Scope
-
-* WhatsApp / e-mail reminders for due dates and outstanding payments
-* Automated deadline calendar for statutory due dates
-* Document management with client-wise folders
-* OCR reading of Form 26AS, GST returns and bank statements
-* GST portal and Income Tax portal integration
-* Payment gateway and online fee collection
-* Printable GST-compliant invoices and a full accounting module
-* Multi-branch support with a server database (PostgreSQL / MySQL)
-* Mobile application for staff task updates
-* AI assistant for workload allocation and collection prioritisation
-
----
-
-*Built as an academic / office-utility project. All demo data is fictional.*
