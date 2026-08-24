@@ -1,26 +1,66 @@
-# BioLock Web
+# BioLock Web — AICA Level 2 Capstone Project
 
-A Chrome extension that locks specific websites behind native device biometrics (Windows Hello, Touch ID, Face ID) using the Web Authentication API (WebAuthn). 
+**Batch:** AICA-L2-Batch-80
+**Participant:** Parin Shah
 
-Built using Chrome Extension Manifest V3.
+## Overview
 
-## Why this exists
+BioLock Web is a Chrome browser extension (Manifest V3) that lets a user lock
+specific websites behind a biometric (Windows Hello / Face ID / fingerprint)
+check using the WebAuthn API. Once a site is added to the locked list, any
+navigation to that site is intercepted and redirected to an authentication
+screen; the original page only loads after a successful platform-authenticator
+check.
 
-Sometimes you want to leave your browser open but protect specific tabs (like WhatsApp Web, banking sites, or social media) from prying eyes. This tool:
-* Blocks access to user-defined URLs instantly via a background service worker.
-* Uses native OS biometrics instead of a master password.
-* Auto-triggers the Windows Hello/Touch ID prompt without extra clicks.
+## How it works
 
-## Architecture
+- **`popup.html` / `popup.js`** — the extension's toolbar popup. Lets the user
+  add a domain to the locked-sites list (`chrome.storage.local`) and register
+  a biometric credential via `navigator.credentials.create()` (WebAuthn
+  registration, `authenticatorAttachment: "platform"`).
+- **`background.js`** — a service worker that listens for tab navigation
+  (`chrome.tabs.onUpdated`). If the destination URL matches a locked site and
+  the tab hasn't already been unlocked in this session, it redirects the tab
+  to the extension's own `auth.html` page instead of letting the navigation
+  through.
+- **`auth.html` / `auth.js`** — the authentication screen. On load it pulls
+  the saved credential ID from storage and calls
+  `navigator.credentials.get()` to trigger the OS biometric prompt
+  (WebAuthn assertion). On success it messages the background script to mark
+  the tab as unlocked and redirects to the original target URL.
+- **`manifest.json`** — Manifest V3 configuration: `tabs` and `storage`
+  permissions, `<all_urls>` host permission (needed to intercept navigation
+  on any locked domain), and the background service worker / popup wiring.
 
-```text
-Browser (Chrome)
-    |  Monitors tabs via Manifest V3 background.js
-    ▼
-Content Match
-    |  Redirects to auth.html if URL is in the locked list
-    ▼
-WebAuthn API
-    |  navigator.credentials.get() calls local OS security
-    ▼
-Windows Hello / Apple Touch ID
+All credential material stays local to the browser via `chrome.storage.local`
+and the WebAuthn platform authenticator — nothing is sent to a server.
+
+## Relevance to AICA Level 2 modules
+
+This project draws on the course's application-development modules
+(Full-Stack Web Based App Development, Android/APK packaging concepts, and
+Agentic/automation workflow design) by building an end-to-end browser-based
+tool: front-end UI (popup/auth pages), an event-driven background service,
+browser storage, and a modern web authentication API — assembled and
+iterated with AI coding assistance as taught during the course.
+
+## How to load and test the extension
+
+1. Open `chrome://extensions` in Chrome.
+2. Enable **Developer mode** (top-right toggle).
+3. Click **Load unpacked** and select this project folder.
+4. Click the extension icon, enter a domain (e.g. `example.com`) in
+   **Lock a Website**, then click **Add to Locked List**.
+5. Click **Register Biometric (Device Setup)** and complete the OS prompt.
+6. Navigate to the locked domain in a new tab — you should be redirected to
+   the authentication screen and prompted for biometric verification before
+   the site loads.
+
+## Files
+
+| File | Purpose |
+|---|---|
+| `manifest.json` | Extension manifest (MV3) |
+| `popup.html`, `popup.js` | Toolbar popup UI — add locked sites, register biometrics |
+| `background.js` | Service worker — intercepts navigation to locked sites |
+| `auth.html`, `auth.js` | Biometric authentication gate page |
