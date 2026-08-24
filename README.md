@@ -1,268 +1,125 @@
-# Upload Your Project Folder to the AICA Level 2 Projects Repository
+# Restaurant Sales & Reconciliation Application
 
-**Target repository:** [aiinicai/AICA-Level-2-Projects](https://github.com/aiinicai/AICA-Level-2-Projects)
-
-This guide explains how to contribute your complete project folder to the **AICA-Level-2-Projects** repository using GitHub’s **Fork + Pull Request** workflow.
-
-Two methods are covered:
-
-1. **Website-only method** — no software installation required.
-2. **Git command-line method** — recommended for complete project folders and projects containing many files.
+Production-ready desktop/web application built in Python for multi-branch restaurant sales tracking, physical cash reconciliation, card/QR bank settlement matching, and online aggregator (Zomato, Swiggy, Dineout) payout reconciliation.
 
 ---
 
-## Fork + Pull Request Workflow
+## 🌟 Key Features
 
-1. **Fork:** Create a personal copy of `aiinicai/AICA-Level-2-Projects` under your GitHub account.
-2. **Add your folder:** Upload or copy your project folder into your fork.
-3. **Commit:** Save the changes in your fork with a clear commit message.
-4. **Open a Pull Request:** Request the `aiinicai` account to merge your changes into the original repository.
-5. **Merge:** The repository owner reviews and accepts your Pull Request. After it is merged, your project folder will appear in the official repository.
+1. **Executive Accounting Dashboard**:
+   - Real-time KPIs: Total Sales, Cash Sales, Card/QR Sales, Zomato, Swiggy, Dineout, Expenses, Unresolved Differences.
+   - Status visual indicators: **Reconciled (Green)**, **Difference (Red)**, **Pending (Amber)**, **Not Imported (Grey)**.
+   - Dynamic filters by Branch, Date Range, Payment Channel, and Reconciliation Status.
+   - Currency display formatted to Indian standard (`₹ 1,42,452.54`).
 
----
+2. **Branch & Master Management**:
+   - Multi-branch support (e.g. Noida Branch, RDC Branch, dynamic admin additions).
+   - Configurable Payment Channels (Cash, Card/QR, Zomato, Swiggy, Dineout, Custom).
+   - Aggregator Master with configurable settlement rules.
+   - Accounting Head Master (e.g., `Zomato Commission Exp`, `TCS Receivable`, `GST Sec 9(5)`).
 
-# Method 1: Website Only
+3. **Consolidated Day Book**:
+   - Multi-channel daily sales grid auto-derived from branch imports.
+   - Prevents double counting (derived totals for Cash + Card/QR + Online Payments).
+   - Daily and Monthly total calculations.
 
-Use this method if:
+4. **Data Import Wizard**:
+   - Upload Excel (`.xlsx`, `.xls`) or CSV files.
+   - Flexible column header mapping for varying branch column names (`"Cash Sale"` $\rightarrow$ `Cash`, `"UPI"` $\rightarrow$ `Card/QR`).
+   - Duplicate detection, missing date flags, invalid amount checks, row-level error reporting, and downloadable import error logs.
 
-- You do not want to install Git.
-- Your project contains relatively few files.
-- You do not need to preserve the project’s earlier commit history.
+5. **Physical Cash Reconciliation**:
+   - Automatic opening balance carry-forward from previous day's closing balance.
+   - Linked cash sales automatically populated from Day Book.
+   - Date-aware Salary Advance buckets (`1st to 5th`, `6th to 15th`, `16th to 31st`).
+   - Accounting Equation:
+     $$\text{Expected Closing} = \text{Opening Bal} + \text{Cash Sales} - \text{Expenses (Inv Recv/Not Recv)} - \text{Salary Advances} - \text{Base Kitchen Transfer} + \text{Service Charge}$$
+     $$\text{Difference} = \text{Actual Day Book Closing} - \text{Expected Closing}$$
 
-> [!NOTE]
-> GitHub’s web uploader generally allows up to 100 files in a single upload. If your project contains more files, upload them in batches or use the Git command-line method.
+6. **Card / QR Bank Settlement Reconciliation**:
+   - Bank statement import (`.xlsx`, `.csv`).
+   - Multi-pass automated matching engine:
+     1. Exact Reference Match
+     2. Exact Amount + Exact Date Match
+     3. Exact Amount + Date Tolerance Window (e.g., 0–3 days)
+     4. Manual Matching with audit trail reason.
 
-## Step 1: Fork the Repository
+7. **Online Aggregator Settlement & Payout Breakup**:
+   - Generic multi-aggregator payout engine.
+   - Dynamic multi-batch matrix view (Gross Sales, Bank Payout, Commissions, Promo Discounts, TCS, TDS, GST Section 9(5), Packing Charges, Misc Deductions).
+   - Formulas:
+     $$\text{Actual Difference} = \text{Gross Sales} - \text{Payout}$$
+     $$\text{Calculated Deductions} = \text{Commission} + \text{Promo} + \text{TCS} + \text{TDS} + \text{Misc} + \text{GST 9(5)} - \text{Packing Charges}$$
+     $$\text{Difference Adjustment} = \text{Actual Difference} - \text{Calculated Deductions}$$
 
-1. Log in to your GitHub account.
-2. Open the [AICA-Level-2-Projects repository](https://github.com/aiinicai/AICA-Level-2-Projects).
-3. Click **Fork** in the upper-right corner of the page.
-4. On the **Create a new fork** page, keep the default settings.
-5. Click **Create fork**.
+8. **Audit Log & Soft Deletes**:
+   - Complete tracking of logins, imports, manual overrides, and config edits with JSON diff snapshots.
 
-You will be redirected to your personal copy of the repository:
-
-```text
-https://github.com/YOUR-USERNAME/AICA-Level-2-Projects
-```
-
-Replace `YOUR-USERNAME` with your GitHub username.
-
-## Step 2: Upload Your Project Folder
-
-GitHub provides two ways to add a folder through the website.
-
-### Option A: Drag and Drop the Complete Folder
-
-1. Open your fork of the repository.
-2. Click **Add file** → **Upload files**.
-3. Open the parent location of your project folder in File Explorer.
-4. Drag the **complete project folder**—not only the files inside it—into GitHub’s upload area.
-5. Wait until all the files appear in the upload list.
-
-Modern browsers such as Google Chrome and Microsoft Edge generally preserve the folder structure during upload.
-
-### Option B: Create the Folder Using a File Path
-
-1. Open your fork of the repository.
-2. Click **Add file** → **Create new file**.
-3. In the filename box, enter:
-
-   ```text
-   MyProjectName/README.md
-   ```
-
-   Typing `/` in the filename automatically creates the folder.
-
-4. Add a short description of your project to the new `README.md` file.
-5. Click **Commit changes**.
-6. Open the newly created folder.
-7. Click **Add file** → **Upload files** and upload the remaining project files.
-
-Replace `MyProjectName` with the name of your project.
-
-## Step 3: Commit the Upload
-
-1. Scroll down to the **Commit changes** section.
-2. Enter a clear commit message, for example:
-
-   ```text
-   Add <Your Name> - <Project Name> project folder
-   ```
-
-3. Keep **Commit directly to the main branch** selected.
-4. Click **Commit changes**.
-
-Because this is your personal fork, committing directly to its `main` branch is acceptable for this submission workflow.
-
-## Step 4: Open a Pull Request
-
-1. Return to the main page of your fork.
-2. GitHub may display a banner stating:
-
-   ```text
-   This branch is X commits ahead of aiinicai:main
-   ```
-
-3. Click **Contribute** → **Open pull request**.
-
-Alternatively:
-
-1. Open the **Pull requests** tab.
-2. Click **New pull request**.
-
-Before creating the Pull Request, confirm the following direction:
-
-| Setting | Selection |
-| --- | --- |
-| Base repository | `aiinicai/AICA-Level-2-Projects` |
-| Base branch | `main` |
-| Head repository | `YOUR-USERNAME/AICA-Level-2-Projects` |
-| Compare branch | `main` |
-
-Then:
-
-1. Enter a clear Pull Request title, for example:
-
-   ```text
-   Add AICA Level 2 Project - <Your Name>
-   ```
-
-2. In the description, briefly explain:
-   - The purpose of your project.
-   - Its main features.
-   - Any setup or usage instructions.
-3. Click **Create pull request**.
-
-## Step 5: Wait for Review and Merge
-
-The owner of the `aiinicai/AICA-Level-2-Projects` repository will receive your Pull Request.
-
-The repository owner may:
-
-- Review your project.
-- Ask questions.
-- Suggest changes.
-- Approve and merge the Pull Request.
-
-If changes are requested, update the files in your fork and commit them. Your existing Pull Request will update automatically.
-
-After the Pull Request is merged, your project folder will become part of the official repository.
+9. **Report Generation**:
+   - Downloadable Excel (`.xlsx`) reports for Consolidated Day Book, Cash Reconciliation, Card/QR Reconciliation, Aggregator Payout Matrix, Audit Trail.
 
 ---
 
-# Method 2: Git Command Line
+## 🚀 Quick Start (Windows Setup)
 
-This method is recommended when:
-
-- Your project contains many files.
-- You want to upload the complete folder structure reliably.
-- You are comfortable using Git commands.
-
-## Prerequisites
-
-Before beginning:
-
-- Install [Git](https://git-scm.com/downloads).
-- Create or log in to your GitHub account.
-- Fork the [AICA-Level-2-Projects repository](https://github.com/aiinicai/AICA-Level-2-Projects) as explained in Method 1.
-
-## Step 1: Clone Your Fork
-
-Open Terminal, Command Prompt, PowerShell, or Git Bash and run:
-
-```bash
-git clone https://github.com/YOUR-USERNAME/AICA-Level-2-Projects.git
+### 1. One-Click Installation
+Double-click `install.bat` or run in Command Prompt:
+```cmd
+install.bat
 ```
+`install.bat` will:
+- Check Python 3.12+ installation.
+- Create a virtual environment (`venv`).
+- Upgrade `pip` and install all dependencies from `requirements.txt`.
+- Create required local directories (`data/`, `uploads/`, `exports/`, `logs/`, `sample_data/`).
+- Initialize SQLite database (`data/restaurant_reconcile.db`) and seed initial master data.
+- Generate sample Excel templates in `sample_data/`.
 
-Then open the cloned repository:
-
-```bash
-cd AICA-Level-2-Projects
+### 2. Launching Application
+Double-click `run.bat` or run:
+```cmd
+run.bat
 ```
+This will start Uvicorn at `http://127.0.0.1:8001` (port 8000 is reserved for the Bank Statement tool) and automatically open your default browser.
 
-Replace `YOUR-USERNAME` with your GitHub username.
-
-## Step 2: Copy Your Project Folder
-
-Copy your complete project folder into the cloned `AICA-Level-2-Projects` directory.
-
-Recommended folder naming format:
-
-```text
-YourName-ProjectName/
-```
-
-Example:
-
-```text
-Rahul-Sharma-AI-Invoice-Analyzer/
-```
-
-## Step 3: Review the Changes
-
-Run:
-
-```bash
-git status
-```
-
-Confirm that Git lists only the files and folders you intend to submit.
-
-## Step 4: Stage and Commit the Project
-
-Stage your project folder:
-
-```bash
-git add YourName-ProjectName/
-```
-
-Commit the changes:
-
-```bash
-git commit -m "Add <Your Name> - <Project Name> project folder"
-```
-
-## Step 5: Push the Changes to Your Fork
-
-Run:
-
-```bash
-git push origin main
-```
-
-Your project folder will now appear in your fork on GitHub.
-
-## Step 6: Open a Pull Request
-
-1. Open your fork on GitHub.
-2. Click **Contribute** → **Open pull request**.
-3. Confirm the base and compare repositories:
-
-| Setting | Selection |
-| --- | --- |
-| Base repository | `aiinicai/AICA-Level-2-Projects` |
-| Base branch | `main` |
-| Head repository | `YOUR-USERNAME/AICA-Level-2-Projects` |
-| Compare branch | `main` |
-
-4. Add a clear title and project description.
-5. Click **Create pull request**.
+### 🔑 Default Credentials
+| Role | Email | Password |
+|---|---|---|
+| **Administrator** | `admin` | `admin` |
+| **Accounts Manager** | `accounts@restaurant.com` | `accounts123` |
+| **Branch User** | `noida` | `noida` |
+| **Viewer** | `viewer@restaurant.com` | `viewer123` |
 
 ---
 
-## Before Submitting
+## 🧪 Running Automated Tests
 
-Please verify the following:
+To run the `pytest` test suite:
+```cmd
+venv\Scripts\activate
+pytest -v
+```
 
-- Your complete project is inside one clearly named folder.
-- Your folder includes a `README.md` explaining the project.
-- The project does not contain passwords, API keys, access tokens, or other confidential information.
-- Unnecessary generated files and dependency folders are excluded where applicable.
-- The project opens or runs using the instructions included in its `README.md`.
-- Your Pull Request targets `aiinicai/AICA-Level-2-Projects` on the `main` branch.
+---
 
-## Need to Update Your Submission?
+## 📂 Project Structure
 
-If your Pull Request is still open, make the required changes in the same fork and branch, then commit and push them. GitHub will automatically add the new commits to the existing Pull Request.
-
+```
+restaurant_reconciliation/
+├── app/
+│   ├── api/             # FastAPI REST endpoints & Web UI View routers
+│   ├── core/            # Database engine, config, security, auth dependencies
+│   ├── models/          # SQLAlchemy ORM database models
+│   ├── schemas/         # Pydantic schemas for data validation
+│   ├── services/        # Business logic & reconciliation engines
+│   ├── templates/       # Jinja2 HTML web templates
+│   ├── static/          # CSS stylesheet and JavaScript client utilities
+│   ├── seed.py          # Database seeder script & sample Excel generator
+│   └── main.py          # FastAPI Application entry point
+├── sample_data/         # Downloadable Excel test templates
+├── tests/               # Pytest automated unit & integration test suite
+├── requirements.txt     # Dependency list
+├── install.bat          # Windows automated setup script
+├── run.bat              # Windows launcher script
+└── README.md
+```
