@@ -19,8 +19,8 @@ Everything runs locally. No data leaves the machine.
 
 ### Option 1 — the packaged Windows app (no Python needed)
 
-Download `FinancePlanner.zip` from the
-[**Releases**](../../releases) page, extract it, and run
+**[Download FinancePlanner.zip](https://github.com/parthmody14-code/AICA-Level-2-Projects/releases/download/v2.6/FinancePlanner.zip)** (128 MB) — or browse the
+[release page](https://github.com/parthmody14-code/AICA-Level-2-Projects/releases/tag/v2.6) — then extract it and run
 `FinancePlanner\FinancePlanner.exe`.
 
 Requires 64-bit Windows 10/11. Nothing is installed; delete the folder to remove
