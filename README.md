@@ -1,16 +1,15 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://ai.google.dev/static/site-assets/images/share-ais-513315318.png" />
-</div>
+# Upload Your Project Folder to the AICA Level 2 Projects Repository
 
-# Run and deploy your AI Studio app
+**Target repository:** [aiinicai/AICA-Level-2-Projects](https://github.com/aiinicai/AICA-Level-2-Projects)
 
-This contains everything you need to run your app locally.
+This guide explains how to contribute your complete project folder to the **AICA-Level-2-Projects** repository using GitHub’s **Fork + Pull Request** workflow.
 
-View your app in AI Studio: https://ai.studio/apps/2a6fcd18-b3df-40ab-8cac-1444ce6f4062
+Two methods are covered:
 
-## Run Locally
+1. **Website-only method** — no software installation required.
+2. **Git command-line method** — recommended for complete project folders and projects containing many files.
 
-**Prerequisites:**  Node.js
+---
 
 ## Fork + Pull Request Workflow
 
@@ -45,325 +44,225 @@ You will be redirected to your personal copy of the repository:
 
 ```text
 https://github.com/YOUR-USERNAME/AICA-Level-2-Projects
-# TAX COMMAND CENTRE
-## AI-Powered Corporate Direct Tax Compliance, Assessment & Litigation Management
-
-**TAX COMMAND CENTRE** is an enterprise-grade direct tax system of record, automated workflow orchestration engine, AI intelligence layer, and executive management control tower designed for Corporate Heads of Tax, Tax Directors, Litigation Specialists, and CFOs.
-
-The system manages the end-to-end direct tax lifecycle under the **Income-tax Act, 1961** — from initial notice ingestion and OCR metadata extraction to evidence collation, AI-assisted legal drafting, maker-checker approvals, e-filing submissions, assessment monitoring, litigation defense, and Ind AS 37 contingent liability reporting.
-
----
-
-## 🚀 Standalone Windows Executable & Setup Installer
-
-### 1. One-Click Setup & Desktop Shortcut Installer:
-- Double-click **`TaxCommandCentre_Setup.bat`** (or run `Install_TaxCommandCentre.ps1` in PowerShell).
-- This creates a **Tax Command Centre** shortcut on your Windows Desktop, validates dependencies, and immediately opens the application in your browser.
-
-### 2. Direct Standalone Launch:
-- Double-click **`TaxCommandCentre.exe`** (or `TaxCommandCentre_Start.bat`).
-- The application starts automatically at **`http://localhost:3000`** with zero external dependencies required.
-
-### 3. Rebuilding the Standalone Executable:
-```bash
-npm run package:exe
-```
-This builds the production frontend, compiles the Express backend server with built-in PDF OCR text extraction and direct tax parser, and generates `TaxCommandCentre.exe`.
-
-### 4. Clean Slate vs Demo Dataset:
-- To start with an empty database for your own live tax notices, click **"Start Clean Slate"** in the top-right user menu or in the **Export & Backup Center**.
-- To restore the standard demonstration dataset anytime, click **"Reload Demo Data"**.
-
----
-
-## 🏛️ Comprehensive Direct Tax Lifecycle Coverage
-
-```mermaid
-flowchart TD
-    A[NOTICE / TAX COMMUNICATION RECEIVED] --> B[CAPTURE & OCR INGESTION]
-    B --> C[METADATA & ISSUE EXTRACTION]
-    C --> D[DUPLICATE DETECTION & MATTER CREATION]
-    D --> E[TAX & BUSINESS OWNER ASSIGNMENT]
-    E --> F[INFORMATION REQUEST & CHECKLIST]
-    F --> G[EMAIL NOTIFICATION & SLA TRACKING]
-    G --> H[INFORMATION & DOCUMENT RECEIPT]
-    H --> I[REMINDER & ESCALATION ENGINE]
-    I --> J[EVIDENCE MATRIX VALIDATION]
-    J --> K[AI GAP ANALYSIS & TAX ANALYSIS]
-    K --> L[AI RESPONSE BUILDER DRAFTING]
-    L --> M[TAX REVIEW & MAKER-CHECKER APPROVAL]
-    M --> N[E-PROCEEDINGS SUBMISSION]
-    N --> O[ACKNOWLEDGEMENT RECORDING]
-    O --> P[COMPLIANCE CLOSURE]
-    P --> Q[ASSESSMENT MONITORING & ORDER TRACKING]
-    Q --> R[DEMAND / REFUND / EXPOSURE LEDGER]
-    R --> S[LITIGATION & APPEALS CIT(A) / ITAT / HC / SC]
-    S --> T[CONTINGENT LIABILITY & IND AS 37 QUARTERLY MIS]
-    T --> U[YEAR-WISE CORPORATE TAX MEMORY]
-    U --> V[FULL BACKUP, RESTORE & ARCHIVE]
 ```
 
----
+Replace `YOUR-USERNAME` with your GitHub username.
 
-## 🛠️ Key Modules & Capabilities
+## Step 2: Upload Your Project Folder
 
-### 1. 🛡️ Tax Control Tower (Executive Dashboard)
-- Answers the **5 Core Tax Leader Questions**:
-  1. **What Came In?** (New notices, queries, and statutory communications)
-  2. **What Is Due?** (Statutory deadlines, internal review targets, and hearings)
-  3. **What Is Stuck?** (Pending checklists, overdue requests, and blocked dependencies)
-  4. **What Is Risky?** (Disputed exposure, critical section risks, and high-value assessments)
-  5. **What Needs My Decision?** (Draft submissions awaiting manager review or head approval)
-- Dynamic drill-down filters by **Legal Entity** and **Assessment Year (AY)**.
-- Stage-by-stage pipeline visualization across the 8 lifecycle stages.
+GitHub provides two ways to add a folder through the website.
 
-### 2. 📥 Central Tax Communication & Notice Inbox
-- Ingest notices via PDF, high-res scan image, text, or e-Filing API.
-- Multimodal OCR & metadata extraction:
-  - Assessee Entity, PAN, TAN, AY, FY, Notice DIN, Section (e.g. 143(2), 142(1), 148, 154, 270A).
-  - Issuing Authority (NFAC Delhi, Jurisdictional AO).
-  - Statutory response deadlines & hearing dates.
-  - Automated extraction of disputed tax issues, questions, and required evidence.
-- **Cryptographic Duplicate Detection**: Checks DIN, notice number, entity, AY, section, and file fingerprint to prevent duplicate dossier creation.
+### Option A: Drag and Drop the Complete Folder
 
-### 3. 📂 Tax Matter System of Record & Issue Engine
-- Unique identifier per tax matter (e.g., `DT-2026-0027`).
-- Full immutable chronological audit trail for every action, status change, and note.
-- Multi-issue granular tracking (e.g., `ISS-01: Section 43B`, `ISS-02: Section 14A`, `ISS-03: Section 80JJAA`, `ISS-04: Section 56(2)(viib)`).
-- Kanban Board and Structured Data Table views with advanced search and risk-level filters.
-- **Legal Hold** flag preventing accidental archiving or destruction during active scrutiny/litigation.
+1. Open your fork of the repository.
+2. Click **Add file** → **Upload files**.
+3. Open the parent location of your project folder in File Explorer.
+4. Drag the **complete project folder**—not only the files inside it—into GitHub’s upload area.
+5. Wait until all the files appear in the upload list.
 
-### 4. 📋 Information Requests, Checklists & Automated SLA Engine
-- Auto-generates department-specific questionnaires for Business Focal Points (Finance, HR, Payroll, Treasury, M&A).
-- Multi-stage lifecycle: `REQUESTED` → `ACKNOWLEDGED` → `PARTIALLY_RECEIVED` → `UNDER_REVIEW` → `COMPLETE` → `VALIDATED`.
-- **Configurable SLA Reminders & Escalations**:
-  - Day 0: Initial Request Dispatched
-  - Day 3: Reminder 1 (Friendly reminder)
-  - Day 5: Reminder 2 (Escalation warning)
-  - Day 7: Final Reminder (Urgent action)
-  - Day 8: Management Escalation (Notifies Business Head & CFO)
-- Simulated business response adapter for complete offline/demo demonstration.
+Modern browsers such as Google Chrome and Microsoft Edge generally preserve the folder structure during upload.
 
-### 5. 🔒 Evidence Room & Immutability Matrix
-- Secure evidence vault categorized into Notice, Ledger, Invoice, Agreement, Reconciliation, Tax Audit Form 3CD, Challans, and Case Law.
-- Document confidentiality classifications: `INTERNAL`, `CONFIDENTIAL`, `HIGHLY_CONFIDENTIAL`, `LITIGATION_CONFIDENTIAL`, `LEGAL_PRIVILEGED`.
-- **Issue-to-Annexure Assertion Mapping Matrix**: Maps factual assertions to supporting documents and automatically assigns formal Annexure numbers (Annexure 1, 2, 3...).
-- Cryptographic locking: Once a submission is recorded, referenced evidence documents are immutably locked against modification.
+### Option B: Create the Folder Using a File Path
 
-### 6. ✍️ AI Response Builder & Question Coverage Verifier
-- Formulates formal clause-by-clause legal submissions addressed to the **National Faceless Assessment Centre (NFAC) / Assessing Officer**.
-- Grounded strictly in:
-  - Assessee facts & General Ledger extracts
-  - Verified documentary evidence & Bank TRRN Challans
-  - Statutory provisions of the Income-tax Act, 1961
-  - Preceding year accepted positions (Rule of Consistency under *Radhasoami Satsang*)
-  - Binding Supreme Court & High Court precedents (*Alom Extrusions*, *South Indian Bank*, *Smifs Securities*, etc.)
-- **100% Question Coverage Checklist**: Guarantees no notice question is left unanswered.
-- **Maker-Checker Protocol**: Response must pass Tax Reviewer check and Head of Tax digital authorization before e-filing.
+1. Open your fork of the repository.
+2. Click **Add file** → **Create new file**.
+3. In the filename box, enter:
 
-### 7. 📤 e-Proceedings Submissions & Ack Register
-- Records official filing mode (`E_PROCEEDINGS_PORTAL`, `EMAIL_SUBMISSION`, `PHYSICAL_TAPPAL`, `ITBA_API`).
-- Generates and stores ITBA Acknowledgement Numbers, transaction hashes, and submission timestamps.
-- **Distinction between Compliance Closed vs Matter Closed**: Submitting a response closes statutory compliance while assessment monitoring remains active.
+   ```text
+   MyProjectName/README.md
+   ```
 
-### 8. ⚖️ Litigation, Appeals & Hearing Management
-- Tracks disputes across appellate stages: `Assessment` → `Rectification` → `CIT(Appeals)` → `ITAT` → `High Court` → `Supreme Court`.
-- Tracks Appeal Numbers, Grounds of Appeal, External Senior Counsels, and Stay of Demand status (20% Section 220(6) pre-deposits).
-- Hearing calendar with bench details, hearing objectives, and outcome records.
+   Typing `/` in the filename automatically creates the folder.
 
-### 9. 📊 Contingent Liability & Quarterly Exposure Movement (Ind AS 37)
-- Authoritative financial movement ledger reconciling Gross Demands, Amounts Paid Under Protest / Stayed, and Net Contingent Liability.
-- Quarter-on-quarter movement statements with mandatory accounting explanations.
-- Automatically generates statutory footnote disclosures for Corporate Financial Statements and Statutory Auditors.
+4. Add a short description of your project to the new `README.md` file.
+5. Click **Commit changes**.
+6. Open the newly created folder.
+7. Click **Add file** → **Upload files** and upload the remaining project files.
 
-### 10. 🧠 Corporate Tax Memory & Knowledge Centre
-- Institutional repository of historical submissions, standard operating procedures, and indexed case laws.
-- **Recurring Issue Detection**: Highlights persistent multi-year disputes (e.g., Section 43B disallowances across AY 2021-22 to AY 2025-26) and retrieves prior-year winning arguments.
+Replace `MyProjectName` with the name of your project.
 
-### 11. 🤖 AI Tax Copilot (Gemini 3.7 Flash)
-- Natural language interactive assistant with full contextual memory of active corporate tax matters.
-- Assists in drafting rebuttal grounds, Section 270AA penalty immunity applications, and adjournment petitions.
-- Displays confidence score, applicable statutory sections, and `[VERIFICATION REQUIRED]` tags for citations requiring human validation.
+## Step 3: Commit the Upload
 
-### 12. 📦 Data Portability, Excel/PDF Reporting & Full Backup/Restore
-- **Multi-Sheet Excel Export**: Generates complete Excel workbooks covering Matters, Notices, Issues, Checklists, Litigation, Demands, and Audit Logs.
-- **Executive Landscape MIS PDF**: Professional A4 landscape management report ready for Board and CFO review.
-- **Full System Backup (ZIP)**: Generates a complete, structured archive including `README.txt`, JSON databases, and CSV records.
-- **Database Restore & Historical Import**: Allows restoring full backups or importing legacy Excel/CSV notice trackers.
+1. Scroll down to the **Commit changes** section.
+2. Enter a clear commit message, for example:
 
----
+   ```text
+   Add <Your Name> - <Project Name> project folder
+   ```
 
-## 💻 Quick Start & Developer Execution
+3. Keep **Commit directly to the main branch** selected.
+4. Click **Commit changes**.
 
-### 1. Launch Standalone Executable (Windows)
-Double-click `TaxCommandCentre.exe` or execute from PowerShell:
-```powershell
-.\TaxCommandCentre.exe
-```
+Because this is your personal fork, committing directly to its `main` branch is acceptable for this submission workflow.
 
-### 2. Or Run in Development Mode via Node.js
-```bash
-npm install
-npm run dev
-```
-Navigate to: `http://localhost:3000`
+## Step 4: Open a Pull Request
 
-### 3. Rebuild Executable (.exe)
-```bash
-npm run package:exe
-```
+1. Return to the main page of your fork.
+2. GitHub may display a banner stating:
+
+   ```text
+   This branch is X commits ahead of aiinicai:main
+   ```
+
+3. Click **Contribute** → **Open pull request**.
+
+Alternatively:
+
+1. Open the **Pull requests** tab.
+2. Click **New pull request**.
+
+Before creating the Pull Request, confirm the following direction:
+
+| Setting | Selection |
+| --- | --- |
+| Base repository | `aiinicai/AICA-Level-2-Projects` |
+| Base branch | `main` |
+| Head repository | `YOUR-USERNAME/AICA-Level-2-Projects` |
+| Compare branch | `main` |
+
+Then:
+
+1. Enter a clear Pull Request title, for example:
+
+   ```text
+   Add AICA Level 2 Project - <Your Name>
+   ```
+
+2. In the description, briefly explain:
+   - The purpose of your project.
+   - Its main features.
+   - Any setup or usage instructions.
+3. Click **Create pull request**.
+
+## Step 5: Wait for Review and Merge
+
+The owner of the `aiinicai/AICA-Level-2-Projects` repository will receive your Pull Request.
+
+The repository owner may:
+
+- Review your project.
+- Ask questions.
+- Suggest changes.
+- Approve and merge the Pull Request.
+
+If changes are requested, update the files in your fork and commit them. Your existing Pull Request will update automatically.
+
+After the Pull Request is merged, your project folder will become part of the official repository.
 
 ---
 
-## 🧪 38-Step End-to-End Acceptance Test Walkthrough
+# Method 2: Git Command Line
 
-To verify the complete direct tax lifecycle in Demo Mode:
+This method is recommended when:
 
-1. **Ingest Notice**: Go to **Communication Inbox** → Click **Analyze Document** (or upload a PDF/Image).
-2. **AI Notice Analysis**: Verify extracted Entity, PAN, AY (2024-25), DIN, Section 143(2), and disputed issues (Section 43B, Section 14A, Section 80JJAA).
-3. **Dossier Creation**: Click **Confirm & Register Tax Matter**.
-4. **Issue Management**: Open **Tax Matters** → View created matter `DT-2026-0027`.
-5. **Checklists & SLA**: Navigate to **Information Requests** → Run **AI Evidence Gap Analysis**.
-6. **Simulate Reminder & Escalation**: Trigger **Send Reminder** and **Escalate** to demonstrate multi-tier SLA alerting.
-7. **Receive Business Evidence**: Click **Simulate Reply** to receive verified bank challans and ledgers.
-8. **Map Evidence**: Go to **Evidence Room** → **Evidence Matrix** → Link verified challans to Section 43B assertion as **Annexure 1**.
-9. **Draft Submission**: Open **Response Builder** → Click **AI Draft Submission** to generate the formal NFAC rebuttal.
-10. **Check Question Coverage**: Verify **100% Question Coverage** checklist.
-11. **Maker-Checker Approval**: Submit for review → Approve as Head of Tax.
-12. **e-Filing Submission**: Click **Submit via e-Proceedings** → Generate ITBA acknowledgement.
-13. **Compliance Closure**: Click **Close Compliance** while keeping assessment monitoring active.
-14. **Appellate & Order Tracking**: Record Assessment Order → Initiate Appeal before **CIT(Appeals)**.
-15. **Contingent Liability Update**: Open **Contingent Liability** → Review Ind AS 37 movement statement.
-16. **Executive Reporting**: Download the **Multi-Sheet Excel Workbook** and **Executive MIS PDF**.
-17. **Full Data Backup**: Click **Download Complete Tax Data (ZIP)** to verify the backup repository.
+- Your project contains many files.
+- You want to upload the complete folder structure reliably.
+- You are comfortable using Git commands.
 
----
+## Prerequisites
 
-## 👥 User Roles & Access Control Matrix (RBAC)
+Before beginning:
 
-| Role | View | Create | Edit | Review | Approve | Submit | Export | Archive | Administer |
-| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| **Super Admin** | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| **Head of Tax** | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ |
-| **Tax Manager** | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ | ✅ | ❌ | ❌ |
-| **Tax User** | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ |
-| **Tax Reviewer** | ✅ | ❌ | ✅ | ✅ | ❌ | ❌ | ✅ | ❌ | ❌ |
-| **Business Group Head**| ✅ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| **Finance User** | ✅ | ❌ | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ |
-| **External Consultant**| ✅ | ❌ | ✅ | ✅ | ❌ | ❌ | ✅ | ❌ | ❌ |
+- Install [Git](https://git-scm.com/downloads).
+- Create or log in to your GitHub account.
+- Fork the [AICA-Level-2-Projects repository](https://github.com/aiinicai/AICA-Level-2-Projects) as explained in Method 1.
 
-*(Switch users dynamically in the top navigation bar to test role-specific interfaces.)*
+## Step 1: Clone Your Fork
 
----
-
-## 🔒 Security & Compliance Governance
-
-- **Zero Secret Exposure**: All API keys, tokens, and credentials reside server-side in environment configurations.
-- **Data Protection**: AES-256 storage compatibility with role-based document access restrictions.
-- **Audit Immutability**: Every login, edit, checklist update, submission, and export action is logged with timestamp, user identity, and cryptographic reference.
-- **Legal Privilege Protection**: Dedicated confidentiality tiers for attorney-client and litigation-sensitive dossiers.
-
----
-
-## 📄 License & Intellectual Property
-
-Designed for enterprise corporate direct tax governance. © 2026 Tax Command Centre. All rights reserved.
-# Tally Converter
-
-Converts Excel, CSV, PDF, and image (JPG/PNG) accounting documents into
-TallyPrime-compatible import XML - running entirely offline on your
-Windows PC. No data leaves your computer.
-
-```
-Excel / CSV / PDF / JPG / PNG
-        |
-Read accounting data
-        |
-OCR when necessary (local Tesseract)
-        |
-Extract transactions
-        |
-Normalize accounting data
-        |
-Validate
-        |
-Map Tally ledgers/items
-        |
-Human review
-        |
-Generate TallyPrime-compatible XML
-        |
-Export XML
-        |
-Import into TallyPrime
-```
-
-## Important: test before relying on this for real books
-
-The generated XML follows TallyPrime's documented voucher-import
-structure (ENVELOPE / HEADER / BODY / DATA / TALLYMESSAGE / VOUCHER),
-but different TallyPrime versions and company configurations can
-require different fields. **Before using this for real accounting
-data, test the generated XML against a TallyPrime test/sample
-company** (Gateway of Tally &rarr; Import Data) and adjust the ledger
-role mappings in Settings/Mappings as needed for your setup.
-
-## What this does NOT do
-
-- It never invents data. If a field (date, party, amount, GSTIN,
-  ledger, item, tax, bank reference) can't be confidently determined,
-  the transaction is marked `REVIEW_REQUIRED` instead of guessed.
-- It never sends anything to TallyPrime or anywhere else without you
-  explicitly clicking "Send to Tally" - the default is always
-  **Export XML Only**.
-- It never uses cloud OCR or any external API. OCR runs locally via
-  Tesseract.
-
-## Quick start (for developers/technical users)
-
-See [INSTALLATION.md](INSTALLATION.md) for the full step-by-step guide
-covering both "just run it from source" and "build the Windows
-installer" paths. In short:
+Open Terminal, Command Prompt, PowerShell, or Git Bash and run:
 
 ```bash
-# Backend
-cd backend
-python -m venv venv
-venv\Scripts\activate        # Windows
-pip install -r requirements.txt --break-system-packages  # or without the flag in a venv
-python run.py
-
-# Frontend (separate terminal, for development only)
-cd frontend
-npm install
-npm run dev
+git clone https://github.com/YOUR-USERNAME/AICA-Level-2-Projects.git
 ```
 
-Then open the URL printed in the backend terminal (defaults to
-`http://127.0.0.1:8000`).
+Then open the cloned repository:
 
-## For end users
+```bash
+cd AICA-Level-2-Projects
+```
 
-If you received `TallyConverterSetup.exe` from your developer/IT team,
-see [USER_GUIDE.md](USER_GUIDE.md) - you don't need Python, Node.js,
-or anything else installed.
+Replace `YOUR-USERNAME` with your GitHub username.
 
-## Documentation
+## Step 2: Copy Your Project Folder
 
-- [INSTALLATION.md](INSTALLATION.md) - setting up a dev environment,
-  installing Tesseract, and building the Windows installer
-- [USER_GUIDE.md](USER_GUIDE.md) - how to import files, review
-  transactions, map ledgers, and export/import into Tally
-- [DEVELOPER_GUIDE.md](DEVELOPER_GUIDE.md) - architecture, project
-  layout, how to extend voucher types, running tests
+Copy your complete project folder into the cloned `AICA-Level-2-Projects` directory.
 
-## License / ownership
+Recommended folder naming format:
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
-This project was generated as a starting point for your own internal
-tool. There is no license file included - add one appropriate to your
-situation before distributing it outside your organization.
+```text
+YourName-ProjectName/
+```
+
+Example:
+
+```text
+Rahul-Sharma-AI-Invoice-Analyzer/
+```
+
+## Step 3: Review the Changes
+
+Run:
+
+```bash
+git status
+```
+
+Confirm that Git lists only the files and folders you intend to submit.
+
+## Step 4: Stage and Commit the Project
+
+Stage your project folder:
+
+```bash
+git add YourName-ProjectName/
+```
+
+Commit the changes:
+
+```bash
+git commit -m "Add <Your Name> - <Project Name> project folder"
+```
+
+## Step 5: Push the Changes to Your Fork
+
+Run:
+
+```bash
+git push origin main
+```
+
+Your project folder will now appear in your fork on GitHub.
+
+## Step 6: Open a Pull Request
+
+1. Open your fork on GitHub.
+2. Click **Contribute** → **Open pull request**.
+3. Confirm the base and compare repositories:
+
+| Setting | Selection |
+| --- | --- |
+| Base repository | `aiinicai/AICA-Level-2-Projects` |
+| Base branch | `main` |
+| Head repository | `YOUR-USERNAME/AICA-Level-2-Projects` |
+| Compare branch | `main` |
+
+4. Add a clear title and project description.
+5. Click **Create pull request**.
+
+---
+
+## Before Submitting
+
+Please verify the following:
+
+- Your complete project is inside one clearly named folder.
+- Your folder includes a `README.md` explaining the project.
+- The project does not contain passwords, API keys, access tokens, or other confidential information.
+- Unnecessary generated files and dependency folders are excluded where applicable.
+- The project opens or runs using the instructions included in its `README.md`.
+- Your Pull Request targets `aiinicai/AICA-Level-2-Projects` on the `main` branch.
+
+## Need to Update Your Submission?
+
+If your Pull Request is still open, make the required changes in the same fork and branch, then commit and push them. GitHub will automatically add the new commits to the existing Pull Request.
+
