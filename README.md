@@ -45,230 +45,102 @@ You will be redirected to your personal copy of the repository:
 
 ```text
 https://github.com/YOUR-USERNAME/AICA-Level-2-Projects
+# Tally Converter
+
+Converts Excel, CSV, PDF, and image (JPG/PNG) accounting documents into
+TallyPrime-compatible import XML - running entirely offline on your
+Windows PC. No data leaves your computer.
+
+```
+Excel / CSV / PDF / JPG / PNG
+        |
+Read accounting data
+        |
+OCR when necessary (local Tesseract)
+        |
+Extract transactions
+        |
+Normalize accounting data
+        |
+Validate
+        |
+Map Tally ledgers/items
+        |
+Human review
+        |
+Generate TallyPrime-compatible XML
+        |
+Export XML
+        |
+Import into TallyPrime
 ```
 
-Replace `YOUR-USERNAME` with your GitHub username.
+## Important: test before relying on this for real books
 
-## Step 2: Upload Your Project Folder
+The generated XML follows TallyPrime's documented voucher-import
+structure (ENVELOPE / HEADER / BODY / DATA / TALLYMESSAGE / VOUCHER),
+but different TallyPrime versions and company configurations can
+require different fields. **Before using this for real accounting
+data, test the generated XML against a TallyPrime test/sample
+company** (Gateway of Tally &rarr; Import Data) and adjust the ledger
+role mappings in Settings/Mappings as needed for your setup.
 
-GitHub provides two ways to add a folder through the website.
+## What this does NOT do
 
-### Option A: Drag and Drop the Complete Folder
+- It never invents data. If a field (date, party, amount, GSTIN,
+  ledger, item, tax, bank reference) can't be confidently determined,
+  the transaction is marked `REVIEW_REQUIRED` instead of guessed.
+- It never sends anything to TallyPrime or anywhere else without you
+  explicitly clicking "Send to Tally" - the default is always
+  **Export XML Only**.
+- It never uses cloud OCR or any external API. OCR runs locally via
+  Tesseract.
 
-1. Open your fork of the repository.
-2. Click **Add file** → **Upload files**.
-3. Open the parent location of your project folder in File Explorer.
-4. Drag the **complete project folder**—not only the files inside it—into GitHub’s upload area.
-5. Wait until all the files appear in the upload list.
+## Quick start (for developers/technical users)
 
-Modern browsers such as Google Chrome and Microsoft Edge generally preserve the folder structure during upload.
-
-### Option B: Create the Folder Using a File Path
-
-1. Open your fork of the repository.
-2. Click **Add file** → **Create new file**.
-3. In the filename box, enter:
-
-   ```text
-   MyProjectName/README.md
-   ```
-
-   Typing `/` in the filename automatically creates the folder.
-
-4. Add a short description of your project to the new `README.md` file.
-5. Click **Commit changes**.
-6. Open the newly created folder.
-7. Click **Add file** → **Upload files** and upload the remaining project files.
-
-Replace `MyProjectName` with the name of your project.
-
-## Step 3: Commit the Upload
-
-1. Scroll down to the **Commit changes** section.
-2. Enter a clear commit message, for example:
-
-   ```text
-   Add <Your Name> - <Project Name> project folder
-   ```
-
-3. Keep **Commit directly to the main branch** selected.
-4. Click **Commit changes**.
-
-Because this is your personal fork, committing directly to its `main` branch is acceptable for this submission workflow.
-
-## Step 4: Open a Pull Request
-
-1. Return to the main page of your fork.
-2. GitHub may display a banner stating:
-
-   ```text
-   This branch is X commits ahead of aiinicai:main
-   ```
-
-3. Click **Contribute** → **Open pull request**.
-
-Alternatively:
-
-1. Open the **Pull requests** tab.
-2. Click **New pull request**.
-
-Before creating the Pull Request, confirm the following direction:
-
-| Setting | Selection |
-| --- | --- |
-| Base repository | `aiinicai/AICA-Level-2-Projects` |
-| Base branch | `main` |
-| Head repository | `YOUR-USERNAME/AICA-Level-2-Projects` |
-| Compare branch | `main` |
-
-Then:
-
-1. Enter a clear Pull Request title, for example:
-
-   ```text
-   Add AICA Level 2 Project - <Your Name>
-   ```
-
-2. In the description, briefly explain:
-   - The purpose of your project.
-   - Its main features.
-   - Any setup or usage instructions.
-3. Click **Create pull request**.
-
-## Step 5: Wait for Review and Merge
-
-The owner of the `aiinicai/AICA-Level-2-Projects` repository will receive your Pull Request.
-
-The repository owner may:
-
-- Review your project.
-- Ask questions.
-- Suggest changes.
-- Approve and merge the Pull Request.
-
-If changes are requested, update the files in your fork and commit them. Your existing Pull Request will update automatically.
-
-After the Pull Request is merged, your project folder will become part of the official repository.
-
----
-
-# Method 2: Git Command Line
-
-This method is recommended when:
-
-- Your project contains many files.
-- You want to upload the complete folder structure reliably.
-- You are comfortable using Git commands.
-
-## Prerequisites
-
-Before beginning:
-
-- Install [Git](https://git-scm.com/downloads).
-- Create or log in to your GitHub account.
-- Fork the [AICA-Level-2-Projects repository](https://github.com/aiinicai/AICA-Level-2-Projects) as explained in Method 1.
-
-## Step 1: Clone Your Fork
-
-Open Terminal, Command Prompt, PowerShell, or Git Bash and run:
+See [INSTALLATION.md](INSTALLATION.md) for the full step-by-step guide
+covering both "just run it from source" and "build the Windows
+installer" paths. In short:
 
 ```bash
-git clone https://github.com/YOUR-USERNAME/AICA-Level-2-Projects.git
+# Backend
+cd backend
+python -m venv venv
+venv\Scripts\activate        # Windows
+pip install -r requirements.txt --break-system-packages  # or without the flag in a venv
+python run.py
+
+# Frontend (separate terminal, for development only)
+cd frontend
+npm install
+npm run dev
 ```
 
-Then open the cloned repository:
+Then open the URL printed in the backend terminal (defaults to
+`http://127.0.0.1:8000`).
 
-```bash
-cd AICA-Level-2-Projects
-```
+## For end users
 
-Replace `YOUR-USERNAME` with your GitHub username.
+If you received `TallyConverterSetup.exe` from your developer/IT team,
+see [USER_GUIDE.md](USER_GUIDE.md) - you don't need Python, Node.js,
+or anything else installed.
 
-## Step 2: Copy Your Project Folder
+## Documentation
 
-Copy your complete project folder into the cloned `AICA-Level-2-Projects` directory.
+- [INSTALLATION.md](INSTALLATION.md) - setting up a dev environment,
+  installing Tesseract, and building the Windows installer
+- [USER_GUIDE.md](USER_GUIDE.md) - how to import files, review
+  transactions, map ledgers, and export/import into Tally
+- [DEVELOPER_GUIDE.md](DEVELOPER_GUIDE.md) - architecture, project
+  layout, how to extend voucher types, running tests
 
-Recommended folder naming format:
-
-```text
-YourName-ProjectName/
-```
-
-Example:
-
-```text
-Rahul-Sharma-AI-Invoice-Analyzer/
-```
-
-## Step 3: Review the Changes
-
-Run:
-
-```bash
-git status
-```
-
-Confirm that Git lists only the files and folders you intend to submit.
-
-## Step 4: Stage and Commit the Project
-
-Stage your project folder:
-
-```bash
-git add YourName-ProjectName/
-```
-
-Commit the changes:
-
-```bash
-git commit -m "Add <Your Name> - <Project Name> project folder"
-```
-
-## Step 5: Push the Changes to Your Fork
-
-Run:
-
-```bash
-git push origin main
-```
-
-Your project folder will now appear in your fork on GitHub.
-
-## Step 6: Open a Pull Request
-
-1. Open your fork on GitHub.
-2. Click **Contribute** → **Open pull request**.
-3. Confirm the base and compare repositories:
-
-| Setting | Selection |
-| --- | --- |
-| Base repository | `aiinicai/AICA-Level-2-Projects` |
-| Base branch | `main` |
-| Head repository | `YOUR-USERNAME/AICA-Level-2-Projects` |
-| Compare branch | `main` |
-
-4. Add a clear title and project description.
-5. Click **Create pull request**.
-
----
-
-## Before Submitting
-
-Please verify the following:
-
-- Your complete project is inside one clearly named folder.
-- Your folder includes a `README.md` explaining the project.
-- The project does not contain passwords, API keys, access tokens, or other confidential information.
-- Unnecessary generated files and dependency folders are excluded where applicable.
-- The project opens or runs using the instructions included in its `README.md`.
-- Your Pull Request targets `aiinicai/AICA-Level-2-Projects` on the `main` branch.
-
-## Need to Update Your Submission?
-
-If your Pull Request is still open, make the required changes in the same fork and branch, then commit and push them. GitHub will automatically add the new commits to the existing Pull Request.
+## License / ownership
 
 1. Install dependencies:
    `npm install`
 2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
 3. Run the app:
    `npm run dev`
+This project was generated as a starting point for your own internal
+tool. There is no license file included - add one appropriate to your
+situation before distributing it outside your organization.
