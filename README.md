@@ -1,63 +1,94 @@
-# Advanced GST Invoicing System & Sales Register
+# Tally Converter
 
-A lightweight, standalone web-based tool designed for generating **Proforma Invoices**, **Tax Invoices**, and **Quotations** compliant with Indian GST standards. Built as a single file using HTML5, CSS3, and JavaScript, it leverages **SheetJS (xlsx)** for seamless Excel data exports and uses `localStorage` for dynamic profile management and sales logging.
+Converts Excel, CSV, PDF, and image (JPG/PNG) accounting documents into
+TallyPrime-compatible import XML - running entirely offline on your
+Windows PC. No data leaves your computer.
 
----
+```
+Excel / CSV / PDF / JPG / PNG
+        |
+Read accounting data
+        |
+OCR when necessary (local Tesseract)
+        |
+Extract transactions
+        |
+Normalize accounting data
+        |
+Validate
+        |
+Map Tally ledgers/items
+        |
+Human review
+        |
+Generate TallyPrime-compatible XML
+        |
+Export XML
+        |
+Import into TallyPrime
+```
 
-## Key Features
+## Important: test before relying on this for real books
 
-* **Multi-Document Generation:** Toggle between Proforma Invoice, Statutory Tax Invoice, and Quotation modes with dynamic disclaimer updates.
-* **Automated GST & State Logic:**
-  * Auto-detects seller and buyer states directly from GSTIN prefix codes.
-  * Automatically calculates split tax types (CGST + SGST vs. IGST) based on intra-state vs. inter-state supply rules.
-  * Auto-extracts 10-digit PAN numbers from provided GSTINs.
-* **Dynamic Calculations:** Real-time line item subtotals, item-level discounts, tax breakdowns, advance deduction, balance due calculations, and Indian numbering word conversion.
-* **Master Profile Management:** Save and load frequent Supplier and Buyer details to `localStorage` or pick from default regional profiles (e.g., GSPL India Gasnet Limited regional branches).
-* **State-Based Sequential Numbering:** Generates auto-incrementing document numbers mapped to specific state codes (e.g., `GIGL/GUJ/26-27/001`).
-* **Data Export Options:**
-  * **Print / PDF:** Uses dedicated `@media print` CSS rules to generate clean printed invoices without UI control buttons.
-  * **Excel Invoice Export:** Downloads individual invoice structures to `.xlsx` files via SheetJS.
-  * **Sales Register:** Logs all generated documents locally and exports an aggregated master sales register spreadsheet.
+The generated XML follows TallyPrime's documented voucher-import
+structure (ENVELOPE / HEADER / BODY / DATA / TALLYMESSAGE / VOUCHER),
+but different TallyPrime versions and company configurations can
+require different fields. **Before using this for real accounting
+data, test the generated XML against a TallyPrime test/sample
+company** (Gateway of Tally &rarr; Import Data) and adjust the ledger
+role mappings in Settings/Mappings as needed for your setup.
 
----
+## What this does NOT do
 
-## File Structure & Dependencies
+- It never invents data. If a field (date, party, amount, GSTIN,
+  ledger, item, tax, bank reference) can't be confidently determined,
+  the transaction is marked `REVIEW_REQUIRED` instead of guessed.
+- It never sends anything to TallyPrime or anywhere else without you
+  explicitly clicking "Send to Tally" - the default is always
+  **Export XML Only**.
+- It never uses cloud OCR or any external API. OCR runs locally via
+  Tesseract.
 
-The entire application runs entirely in the browser and requires no backend server setup.
+## Quick start (for developers/technical users)
 
-* **Single Source File:** `index.html` (contains layout, CSS styling, and logic).
-* **External CDN Dependency:**
-  * `xlsx.full.min.js` (SheetJS v0.18.5) — Loaded via CDN for client-side Excel parsing and file generation.
+See [INSTALLATION.md](INSTALLATION.md) for the full step-by-step guide
+covering both "just run it from source" and "build the Windows
+installer" paths. In short:
 
----
+```bash
+# Backend
+cd backend
+python -m venv venv
+venv\Scripts\activate        # Windows
+pip install -r requirements.txt --break-system-packages  # or without the flag in a venv
+python run.py
 
-## Technical Overview
+# Frontend (separate terminal, for development only)
+cd frontend
+npm install
+npm run dev
+```
 
-### 1. Document & Header Configuration
-* Selecting a document type from the top controls updates `#headerTitle` and changes the header sub-caption depending on whether ITC (Input Tax Credit) is claimable.
+Then open the URL printed in the backend terminal (defaults to
+`http://127.0.0.1:8000`).
 
-### 2. State & GST Resolution
-* The `gstStateCodes` map translates 2-digit state prefixes (e.g., `24` for Gujarat, `27` for Maharashtra) into human-readable state names.
-* The system evaluates `suppCode === buyCode` to toggle visible rows between `(CGST + SGST)` and `IGST`.
+## For end users
 
-### 3. Data Storage Keys (`localStorage`)
-* `seller_masters`: Array of saved supplier profiles.
-* `customer_masters`: Array of saved buyer profiles.
-* `invoice_counters`: Key-value map storing current state-specific sequence numbers.
-* `sales_register`: Master log array of past finalized transactions.
+If you received `TallyConverterSetup.exe` from your developer/IT team,
+see [USER_GUIDE.md](USER_GUIDE.md) - you don't need Python, Node.js,
+or anything else installed.
 
----
+## Documentation
 
-## How to Use
+- [INSTALLATION.md](INSTALLATION.md) - setting up a dev environment,
+  installing Tesseract, and building the Windows installer
+- [USER_GUIDE.md](USER_GUIDE.md) - how to import files, review
+  transactions, map ledgers, and export/import into Tally
+- [DEVELOPER_GUIDE.md](DEVELOPER_GUIDE.md) - architecture, project
+  layout, how to extend voucher types, running tests
 
-1. **Launch:** Open `index.html` in any modern web browser.
-2. **Select Document Type:** Pick *Proforma Invoice*, *Tax Invoice*, or *Quotation* from the top bar.
-3. **Set Profiles:** Select an existing profile from the **Seller** or **Customer** dropdowns, or enter details manually and click **+ Save to Master**.
-4. **Manage Line Items:**
-   * Edit item descriptions, HSN/SAC codes, quantity, rate, and discount.
-   * Click **+ Add Line Item** to add additional items or click **X** to remove a row.
-5. **Adjust Tax & Advances:** Modify the overall GST Rate (%) or enter an Advance Received amount to compute the final Balance Payable.
-6. **Save & Export:**
-   * **Print / Export PDF:** Triggers browser print dialog tailored for standard A4 document layout.
-   * **Export Invoice Excel:** Exports the currently displayed invoice to an `.xlsx` file.
-   * **Save & Export Sales Register:** Appends the record to the master sales log, exports `Sales_Register_Master.xlsx`, and increments the invoice number.
+## License / ownership
+
+This project was generated as a starting point for your own internal
+tool. There is no license file included - add one appropriate to your
+situation before distributing it outside your organization.
