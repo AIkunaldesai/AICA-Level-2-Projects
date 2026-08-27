@@ -50,6 +50,32 @@ footer{padding:25px;text-align:center;color:var(--muted);font-size:12px}
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CA Practice ERP & Client Master Suite</title>
+    <meta name="description" content="Integrated CA Practice Management ERP with Forever Master Files, Document OCR, Govt Portal API Sync, Auto Billing, WhatsApp/Gmail Automation & Payroll Master." />
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="theme-color" content="#0f172a" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet" />
+  </head>
+  <body class="bg-slate-950 text-slate-100 font-sans antialiased selection:bg-indigo-500 selection:text-white">
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js').then((reg) => {
+            console.log('PWA Service Worker registered:', reg.scope);
+          }).catch((err) => {
+            console.log('PWA Service Worker registration failed:', err);
+          });
+        });
+      }
+    </script>
+    <title>My Google AI Studio App</title>
+    <meta name="description" content="An application built with Google AI Studio." />
+    <meta property="og:title" content="My Google AI Studio App" />
+    <meta property="og:description" content="An application built with Google AI Studio." />
     <title>AssetTrust AI — Fixed Asset Governance & Control Tower</title>
     <meta name="description" content="Agentic Fixed Asset Governance, Risk Control & Audit-Readiness Platform for CFOs and Finance Leaders." />
     <meta property="og:title" content="AssetTrust AI — Fixed Asset Governance & Control Tower" />
